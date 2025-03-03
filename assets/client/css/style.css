@@ -1,0 +1,207 @@
+/* ----------------------------------Style.css --------------------------*/
+/* header-toptop*/
+.header-top {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 3px 5px; 
+  }
+  
+  .header-top ul {
+    list-style: none; 
+    display: flex;
+    gap: 15px; 
+    margin: 0;
+    padding: 0;
+    opacity: 0.4;
+  }
+  
+  .header-top ul li a {
+    text-decoration: none; 
+    color: black;
+  }
+  /* Navbar */
+.navbar .input-search {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width:350px;
+}
+.navbar .btn-search {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.navbar .input-search:focus {
+    outline: none; 
+    border-right: none; 
+    box-shadow: none;
+}
+/* Sản phẩm nổi bật */
+.card-body {
+    padding-bottom: 0; 
+}
+
+.card-body h5 {
+    margin-bottom: 0.5rem; 
+}
+
+.list-group-item {
+    padding-top: 0.25rem; 
+    padding-bottom: 0.25rem; 
+}
+.card-body h5 {
+    white-space: nowrap;        
+    overflow: hidden;           
+    text-overflow: ellipsis;    
+    width: 100%;                
+}
+.card img {
+    width: 100%; 
+    height: 300px; 
+    object-fit: cover;
+    border-radius: 10px; 
+    object-position: center; 
+}
+/* ---------------------------------- cart.css giỏ hàng --------------------------*/
+.table-responsive {
+    max-height: 435px;
+    overflow-y: auto;   
+}
+/* Tùy chỉnh thanh cuộn */
+.table-responsive::-webkit-scrollbar {
+    width: 10px; 
+    height: 10px; 
+}
+
+/* Phần nền của thanh cuộn (track) */
+.table-responsive::-webkit-scrollbar-track {
+    background: #f0f0f0; 
+    border-radius: 10px; 
+}
+
+/* Phần thumb của thanh cuộn (nút kéo) */
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #d2dad2; 
+    border-radius: 10px; 
+    border: 2px solid #f0f0f0; 
+}
+
+/* Khi người dùng hover lên thanh cuộn */
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #b4b8b1; 
+}
+
+/* Cố định header của table */
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff; 
+    z-index: 1; 
+  }
+  /* ---------------------------------- css bố cục trang sản phẩm--------------------------*/
+
+
+  /* Màu mặc định cho các nút phân trang */
+.pagination .page-link {
+    color: #28a745; 
+  }
+  .pagination .page-link i {
+    color: #28a745; 
+  }
+  
+  /* Hover: Đổi màu nền và màu chữ */
+  .pagination .page-link:hover {
+    color: white; 
+    background-color: #28a745; 
+  }
+  
+  /* Hover: Đổi màu icon Previous và Next */
+  .pagination .page-link:hover .pre,
+  .pagination .page-link:hover .next {
+    color: white; 
+  }
+  
+  /* Active trạng thái của trang hiện tại */
+  .pagination .page-item.active .page-link {
+    color: white; 
+    background-color: #28a745; 
+  }
+  
+  /*Chỉnh kích thước các nút */
+  .pagination .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 16px;
+  }
+
+/* ---------------------------------- css thanh toán--------------------------*/
+.progress-container {
+    position: relative;
+    margin: 30px auto;
+    width: 80%;
+  }
+
+  .step-circle {
+    position: absolute;
+    top: -11px;
+    width: 24px;
+    height: 24px;
+    background-color: #ddd;
+    border-radius: 50%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: bold;
+  }
+
+  .step-circle.active {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  .step-label {
+    position: absolute;
+    top: 25px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    width: 80px;
+    transform: translateX(-50%);
+  }
+
+  .step-label.active {
+    color: #198754;
+  }
+/* ---------------------------------- css thông tin cá nhân--------------------------*/
+.avatar-preview {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ddd;
+    
+}
+
+.avatar-upload-btn {
+    margin-top: 10px;
+    display: block; 
+}
+.avatar-label:hover {
+    cursor: pointer;
+}
+/* ---------------------------tag giảm giá ------------- */
+.sale-tag {
+  background: #dc3545;
+  color: white;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 20px; 
+  font-size: 14px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}

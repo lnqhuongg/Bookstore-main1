@@ -1,0 +1,263 @@
+/* ----------------------------------Style.css --------------------------*/
+/* header-toptop*/
+.header-top {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 3px 5px; 
+  }
+  
+  .header-top ul {
+    list-style: none; 
+    display: flex;
+    gap: 15px; 
+    margin: 0;
+    padding: 0;
+    opacity: 0.4;
+  }
+  
+  .header-top ul li a {
+    text-decoration: none; 
+    color: black;
+  }
+  /* Navbar */
+.navbar .input-search {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width:350px;
+}
+.navbar .btn-search {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.navbar .input-search:focus {
+    outline: none; 
+    border-right: none; 
+    box-shadow: none;
+}
+/* Sản phẩm nổi bật */
+.card-body {
+    padding-bottom: 0; 
+}
+
+.card-body h5 {
+    margin-bottom: 0.5rem; 
+}
+
+.list-group-item {
+    padding-top: 0.25rem; 
+    padding-bottom: 0.25rem; 
+}
+.card-body h5 {
+    white-space: nowrap;        
+    overflow: hidden;           
+    text-overflow: ellipsis;    
+    width: 100%;                
+}
+.card img {
+    width: 100%; 
+    height: 300px; 
+    object-fit: cover;
+    border-radius: 10px; 
+    object-position: center; 
+}
+/* ------------------------------------------Phân trang--------------------- */
+/* Màu mặc định cho các nút phân trang */
+.pagination .page-link {
+    color: #28a745; 
+  }
+  .pagination .page-link i {
+    color: #28a745; 
+  }
+  
+  /* Hover: Đổi màu nền và màu chữ */
+  .pagination .page-link:hover {
+    color: white; 
+    background-color: #28a745; 
+  }
+  
+  /* Hover: Đổi màu icon Previous và Next */
+  .pagination .page-link:hover .pre,
+  .pagination .page-link:hover .next {
+    color: white; 
+  }
+  
+  /* Active trạng thái của trang hiện tại */
+  .pagination .page-link.active {
+    color: white; 
+    background-color: #28a745; 
+  }
+  
+  /*Chỉnh kích thước các nút */
+  .pagination .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 16px;
+  }
+  .AuthorModal {
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+  /* ------------------------------------------------table-------------------- */
+  .table-responsive {
+    max-height: 435px;
+    overflow-y: auto;   
+}
+/* Tùy chỉnh thanh cuộn */
+.table-responsive::-webkit-scrollbar {
+    width: 10px; 
+    height: 10px; 
+}
+
+/* Phần nền của thanh cuộn (track) */
+.table-responsive::-webkit-scrollbar-track {
+    background: #f0f0f0; 
+    border-radius: 10px; 
+}
+
+/* Phần thumb của thanh cuộn (nút kéo) */
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #d2dad2; 
+    border-radius: 10px; 
+    border: 2px solid #f0f0f0; 
+}
+
+/* Khi người dùng hover lên thanh cuộn */
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #b4b8b1; 
+}
+
+/* Cố định header của table */
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff; 
+    z-index: 1; 
+  }
+
+  .address-css {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* -----------------------------------author modal --------------*/
+  .AuthorModal {
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+
+  .AuthorModal .form-check-input[type=checkbox] {
+    border-radius: .25em;
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(0, 0, 0, .25);
+    margin-right: 3px;
+  }
+
+  .sidebar {
+    width: 80px;
+    min-width: 80px;
+    height: 100vh;
+    background: linear-gradient(180deg, #28a745, #218838); 
+    position: fixed;
+    top: 0;
+    left: 10px;
+    overflow: hidden; /* Ẩn hoàn toàn thanh cuộn */
+    transition: width 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    z-index: 1050;
+  
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Nội dung menu cuộn dọc */
+.sidebar .menu {
+    overflow-y: auto;
+    overflow-x: hidden; /* Ẩn cuộn ngang */
+    max-height: calc(100vh - 50px);
+    width: 100%; 
+    padding-right: 5px;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.sidebar .menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar .menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.sidebar .menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Khi hover vào sidebar */
+.sidebar:hover {
+    width: 290px;
+}
+
+/* Mục menu */
+.sidebar a {
+    width: 100%;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 4px 10px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+/* Hover vào menu */
+.sidebar a:hover {
+    background-color: rgb(248,249,250);
+    padding-left: 15px;
+    color: black;
+}
+/* Khi hover vào menu, đổi màu icon thành đen */
+.sidebar a:hover i {
+    color: black;
+}
+
+/* Icon menu */
+.sidebar i {
+    color: white;
+    font-size: 18px;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Ẩn chữ menu khi chưa hover */
+.sidebar span {
+    display: none;
+}
+
+/* Khi hover vào sidebar, hiển thị chữ */
+.sidebar:hover span {
+    display: inline;
+}
+
+/* Content */
+.content {
+    margin-left: 80px;
+    padding: 20px;
+    width: 100%;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Khi hover sidebar, đẩy content qua phải */
+.sidebar:hover ~ .content {
+    margin-left: 250px;
+}

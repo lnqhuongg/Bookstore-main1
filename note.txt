@@ -1,0 +1,72 @@
+-------------------------------------------
+I - GIẢI THÍCH MÔ HÌNH
+-------------------------------------------
+
+BaseController.php: xử lý chuyển đổi giữa các file + xử lý phân trang các file có phân trang
+
+FOLDER - Controllers: kế thừa BaseController
+ - Gắn tên folder tùy vào file đang ở hiện tại -> truyền biến $folder cho BaseController 
+ - Truyền data tại của file đó cho BaseController 
+ - Có phân trang -> true ngược lại false
+ - Sử dụng các function được viết ở các class ở folder Models
+
+FOLDER - Models: các class 
+ - Tương tác với database 
+
+FOLDER - Views: các trang giao diện
+ - Hiển thị giao diện người dùng 
+ - Tải dữ liệu từ database lên để hiển thị 
+
+
+
+
+
+-------------------------------------------
+II - YÊU CẦU CHỨC NĂNG THIẾT KẾ THEO CLASS
+-------------------------------------------
+
+* Các lớp đều có các thuộc tính cơ bản: 
+ - Thêm (Riêng một số lớp không có phương thức 'Thêm')
+ - Sửa
+ - Tìm kiếm
+ - To Array (chuyển đổi đối tượng thành 1 mảng Array)
+ - getAll (lấy tất cả các data)
+ -  isExist (kiểm tra tồn tại, kiểm tra trùng khớp)
+ - các phương thức get set khác
+
+* Khi viết thêm các phương thức khác -> NOTE lại báo qh
+
+* Phương thức tìm kiếm cơ bản:
+ - Account: tìm kiếm theo id, tên tài khoản, email, số điện thoại
+ - Author: tìm kiếm theo id, tên tác giả, email
+ - Book: tìm kiếm theo id, tên sách
+ - Catalog: tìm kiếm theo id, tên thể loại
+ - Discount: tìm kiếm theo phần trăm giảm giá
+ - Order: tìm kiếm theo id, tên khách hàng
+ - Role: tìm kiếm theo id, tên nhóm quyền
+ - Stationery: tìm kiếm theo id, tên VPP
+ - Supplier: tìm kiếm theo id, tên nhà cung cấp, email
+ - ImportProduct: tìm kiếm theo id phiếu nhập 
+
+* Phương thức tìm kiếm nâng cao:
+ - Lọc theo các chức năng có trên giao diện
+
+
+
+
+
+-------------------------------------------
+III - NOTE OOP
+-------------------------------------------
+
+* Phạm vi truy cập:
+ - Các phương thức không ghi trước phạm vi truy cập -> mặc định là public (trong PHP)
+
+* Static: 
+ - Gọi phương thức mà không cần khởi tạo đối tượng 
+ VD về cú pháp: 
+  + Static: 
+    $list = Account::getAll();
+  + Non-static: 
+    $acc = new Account();
+    $list = $acc->getAll();
