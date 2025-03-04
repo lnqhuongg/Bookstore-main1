@@ -151,8 +151,6 @@
       <select class="form-select me-2" aria-label="Default select example" style="max-width: 200px;">
         <option selected>Tất cả gì gì đó</option>
         <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
       </select>
     </section>
     <section class="banner">
@@ -160,7 +158,7 @@
             <!-- Form tìm kiếm -->
             <div class="col-md-11 d-flex">
               <form class="d-flex w-100">
-                  <input type="text" placeholder="Nhập mã, tên sách..." style="max-width: 360px;" class="form-control me-4" id="">
+                  <input type="text" placeholder="Nhập mã hoặc mô tả banner..." style="max-width: 360px;" class="form-control me-4" id="">
                   <button class="btn btn-success btn-sm " >Tìm kiếm</button>
               </form>
             </div>

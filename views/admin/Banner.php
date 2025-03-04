@@ -14,8 +14,6 @@
             <select class="form-select me-2" aria-label="Default select example" style="max-width: 200px;">
                 <option selected>Tất cả trạng thái</option>
                 <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
             </select>
         </form>
       </div>
@@ -58,7 +56,7 @@
                       <td class="align-middle text-center">
                         <!-- Button xem thông tin chi tiết -->
                           <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropInfo">
-                              <img src="/assets/img/trash.png" style="width:20px" alt="">
+                              <img src="../assets/admin/img/trash.png" style="width:20px" alt="">
                           </button>
                       </td>
                   </tr>
