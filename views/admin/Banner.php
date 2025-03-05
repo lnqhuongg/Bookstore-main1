@@ -19,7 +19,7 @@
       </div>
       <!-- Button thêm sách -->
       <div class="col-md-1 d-flex justify-content-end">
-        <button class="btn btn-success btn-sm open_add_form" style="width:110px" data-bs-toggle="modal" data-bs-target="#staticBackdropEdit" role="button" type="button">Thêm mới</button>
+        <button class="btn btn-success btn-sm open_add_form" style="width:110px" data-bs-toggle="modal" data-bs-target="#staticBackdropEditBanner" role="button" type="button">Thêm mới</button>
         <!-- Thêm sách mới Modal -->
         
       </div>
@@ -46,7 +46,7 @@
                       </td>
                     <!-- Hình ảnh -->
                       <td class="book-image text-center" scope="row">
-                          <img src="/assets/img/slider2.webp" style="width:350px" alt="">
+                          <img src="../assets/admin/img/slider2.webp" style="width:350px" alt="">
                       </td>
                     <!-- Mô tả -->
                       <td class="book-name  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
@@ -54,8 +54,12 @@
                       </td>
                     <!-- Tùy chỉnh -->
                       <td class="align-middle text-center">
-                        <!-- Button xem thông tin chi tiết -->
-                          <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropInfo">
+                          <!-- Button xem thông tin chi tiết -->
+                          <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditBanner">
+                              <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                          </button>
+                          <!-- Button xóa Banner -->
+                          <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm"  >
                               <img src="../assets/admin/img/trash.png" style="width:20px" alt="">
                           </button>
                       </td>
@@ -76,8 +80,8 @@
                   </a>
                 </li>
                 <li class="page-item me-2 "><a class="page-link rounded-circle" href="#">1</a></li>
-                <li class="page-item me-2""><a class="page-link rounded-circle" href="#">2</a></li>
-                <li class="page-item me-2""><a class="page-link rounded-circle" href="#">3</a></li>
+                <li class="page-item me-2"><a class="page-link rounded-circle" href="#">2</a></li>
+                <li class="page-item me-2"><a class="page-link rounded-circle" href="#">3</a></li>
                 <li class="page-item">
                   <a class="page-link rounded-circle" href="#" aria-label="Next">
                     <span aria-hidden="true"><i class="next fa-solid fa-angle-right"></i></span>
@@ -88,18 +92,18 @@
       </div>
     </div>
   <!-- Modal form popup -->
-  <div class="modal fade" id="staticBackdropEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+  <div class="modal fade" id="staticBackdropEditBanner" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="productModalLabel">Thêm banner</h1>
+          <h1 class="modal-title fs-5" id="bannerModalLabel">Cái này là title modal</h1>
           <button type="button" class="btn-close" id="btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="" id="productForm">
+        <form action="" id="bannerForm">
           <div class="modal-body">
             <div class="row">
               <!-- col hình ảnh -->
-              <div class="col-md-3">
+              <div class="col-md-5">
                 <div class="row ">
                   <!-- Khung hình ảnh -->
                   <div class="col-md-12 text-center">
@@ -115,18 +119,19 @@
                     <label for="uploadImage1" class="btn btn-outline-success rounded-pill">
                       <i class="fa-solid fa-upload"></i> Tải hình ảnh
                     </label>
-                    <input type="file" id="uploadImage1" class="d-none" accept="image/*" onchange="previewFileEditProduct()">
+                    <input type="file" id="uploadImage1" class="d-none edit" accept="image/*">
                   </div>
                 </div>
               </div>
               <!-- col thông tin sách -->
-              <div class="col-md-9 px-3">
-                  <div class="edit">
-
+              <div class="col-md-7 px-3">
                   <div class="row mb-3">
-                    <div class="col-md-12 d-flex justify-content-between ">
+                    <div class="col-md-12 modal-description">
                       <label for="" class="col-form-label fw-medium">Mô tả</label>
-                      <textarea class="form-control" aria-label="With textarea" style="width: 675px; max-height: 150px; overflow-y: auto;"></textarea>
+                      <textarea class="form-control" 
+                                aria-label="With textarea" 
+                                style="max-width: 500px; min-height: 262px; overflow-y: auto; color: #333"
+                                placeholder="Nhập vào mô tả Banner..."></textarea>
                     </div>
                   </div>
                             
@@ -140,6 +145,13 @@
       </div>
     </div>
   </div>
-  
-    
   </div>
+
+  <!-- ------------------------------------------------------------------------------------------------- -->
+    <!-- js bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- js -->
+    <!-- <script src="/assets/js/admin/uploadImg.js"></script> -->
+    <script src="../assets/admin/js/Banner.js"></script>
+</body>
+</html>

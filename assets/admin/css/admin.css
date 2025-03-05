@@ -164,7 +164,7 @@ thead {
     background: linear-gradient(180deg, #28a745, #218838); 
     position: fixed;
     top: 0;
-    left: 10px;
+    left: 0px;
     overflow: hidden; /* Ẩn hoàn toàn thanh cuộn */
     transition: width 0.3s ease-in-out;
     display: flex;
