@@ -42,5 +42,15 @@ class Database{
         return $result ? $result->fetch_assoc() : NULL;
     }
 
+    // prepare statements
+    public function prepare($sql){
+        return $this->link->prepare($sql);
+    }
+
+    // Lấy ID vừa insert
+    public function getLastInsertId(){
+        return $this->link->insert_id;
+    }
+
 }
 ?>
