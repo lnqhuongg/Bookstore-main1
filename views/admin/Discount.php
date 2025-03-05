@@ -31,48 +31,63 @@
             <thead class="text-center">
               <tr>
                 <th scope="col">Mã giảm giá</th>
+                <th scope="col">Phần trăm (%)</th>
                 <th scope="col">Ngày bắt đầu</th>
                 <th scope="col">Ngày kết thúc</th>
-                <th scope="col">Phần trăm (%)</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Tùy chỉnh</th>
               </tr>
             </thead>
-            <tbody  class="table-group-divider">
+            <tbody class="table-group-divider">
+                    <?php
+                      $discounts = $result['paging']; 
+                        if($discounts == null) {
+                          echo '<tr><td colspan="6">Không có dữ liệu</td> </tr>';
+                          echo '</tbody></table></div></div>';
+                      } else {
+                      echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
+                      // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
+                      for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
+                          $discount = $discounts[$i];
+                    ?>
                 <tr>
-                  <!-- Mã  -->
-                    <td class="align-middle text-center" scope="row">
-                        KM001
+                  <!-- Mã tác giả -->
+                    <td class="align-middle text-center discount_id" scope="row">
+                      <?=$discount->getIdMGG()?>
                     </td>
-                  <!-- Ngày bắt đầu-->
-                    <td class="  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        10/1/2024
+                  <!-- Tên tác gỉa -->
+                    <td class="  align-middle text-center discount_percent" style="max-width: 150px; word-wrap: break-word;">
+                      <?=$discount->getPhantram()?>
                     </td>
-                  <!-- Ngày kết thúc -->
-                    <td class="  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        10/1/2025
+                  <!-- Email -->
+                    <td class="  align-middle text-center discount_begin" style="max-width: 150px; word-wrap: break-word;">
+                      <?=$discount->getNgaybatdau()?>
                     </td>
-                  <!-- Phần trăm -->
-                    <td class="  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        20
+                  <!-- Email -->
+                    <td class="  align-middle text-center discount_end" style="max-width: 150px; word-wrap: break-word;">
+                      <?=$discount->getNgayketthuc()?>
                     </td>
                   <!-- Trạng thái -->
-                    <td class=" align-middle text-center text-success fw-bold">
-                        Hoạt động
+                    <td class="align-middle text-center text-success fw-bold">
+                        <?php
+                            if($discount->getTrangthai())
+                                echo '<span class="align-middle text-center text-success fw-bold">Hoạt động</span>';
+                            else
+                                echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
+                        ?>
                     </td>
                   <!-- Tùy chỉnh -->
                     <td class="align-middle text-center">
                         <!-- Button chỉnh sửa -->
-                          <!-- Button trigger modal -->
-                          <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditDiscount">
-                            <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
-                          </button>
-                        <!-- Button xóa-->
-                        <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropInfo">
-                            <img src="../assets/admin/img/trash.png" style="width:20px" alt="">
-                         </button>
+                        <!-- Button trigger modal -->
+                        <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditDiscount">
+                          <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                        </button>
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
       </div>
@@ -83,23 +98,16 @@
     <div class="col-md-12 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item me-2">
-                <a class="page-link rounded-circle" href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="pre fa-solid fa-angle-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item me-2 "><a class="page-link rounded-circle" href="#">1</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">2</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link rounded-circle" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="next fa-solid fa-angle-right"></i></span>
-                </a>
-              </li>
+              <?php
+                echo $pagingButton;
+              ?>
             </ul>
         </nav>   
     </div>
   </div>
+  <?php
+      }
+  ?>
 
   <!-- Modal -->
   <div class="modal fade" id="staticBackdropEditDiscount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelEditDiscount" aria-hidden="true">
@@ -110,28 +118,43 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" id="discountForm">
+          <input type="hidden" name="discount_id" id="discount_id" value="">
           <div class="modal-body">
             <div class="row mb-3">
                 <label for="" class=" col-sm-3 col-form-label fw-medium text-start">Phần trăm khuyến mãi</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="" placeholder="Nhập Phần trăm khuyến mãi...">
+                  <input type="text" class="form-control" id="discount_percent" name="discount_percent" placeholder="Nhập Phần trăm khuyến mãi...">
+                  <span class="text-message text-danger discount-percent-msg"></span>
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="calendarInput" class="col-sm-3 text-start form-label fw-medium">Ngày bắt đầu</label>
+                <label for="discount_calendarInput_start" class="col-sm-3 text-start form-label fw-medium">Ngày bắt đầu</label>
                 <div class="col-sm-9">
-                    <input type="date" id="calendarInput" class="form-control">
+                    <input type="date" id="discount_calendarInput_start" name="discount_begin" class="form-control">
+                    <span class="text-message text-danger discount-start-msg"></span>
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="calendarInput" class="col-sm-3 text-start form-label fw-medium">Ngày kết thúc</label>
+                <label for="disocunt_calendarInput_end" class="col-sm-3 text-start form-label fw-medium">Ngày kết thúc</label>
                 <div class="col-sm-9">
-                    <input type="date" id="calendarInput" class="form-control">
+                    <input type="date" id="discount_calendarInput_end" name="discount_end" class="form-control">
+                    <span class="text-message text-danger discount-end-msg"></span>
                 </div>
             </div>
-          </div>
+            <div class="edit">
+              <div class="row mb-3 d-flex justify-content-center align-items-center">
+                  <label for="" class="col-sm-3 col-form-label fw-medium text-start">Trạng thái</label>
+                  <div class="d-flex align-items-center col-sm-9">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="status" name="status" onchange="document.getElementById('status-label').textContent = this.checked ? 'Đang hoạt động' : 'Bị khóa';">
+                      <label class="form-check-label" for="status" id="status-label">Đang hoạt động</label>
+                    </div>
+                  </div>
+              </div>
+            </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success">Xác nhận</button>
+            <input type="hidden" name="" id="submit_btn">
+            <button type="submit" class="btn btn-success" name="action">Xác nhận</button>
           </div>
         </form>
       </div>
