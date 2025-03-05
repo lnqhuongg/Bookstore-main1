@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Store</title>
+    <title>BookStore</title>
      
     <!-- icon flaticon -->
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
@@ -34,6 +34,9 @@
 
 </head>
 <body class="bg-light">
+      <!-- Toast message -->
+  <div id="toast"></div>
+    <!-- ... -->
   <header class="border-bottom">  
   <!-- Header top -->
   <div class="header-top bg-body-secondary">
@@ -114,6 +117,3 @@
   <!-- Navbar end -->
   </header>
 
-  <!-- Toast message -->
-  <div id="toast"></div>
-    <!-- ... -->
