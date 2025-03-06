@@ -1,3 +1,4 @@
+let isCheck=false;
 // reload lại form 
 document.getElementById('staticBackdropEditDiscount').addEventListener('hidden.bs.modal', function () {
     document.getElementById('discountForm').reset();
@@ -17,6 +18,7 @@ $(document).ready(function () {
 
     // Modal Thêm Mã giảm giá 
     $('.open_add_form').on('click', function () {
+        isCheck=false;
         modalTitle.textContent = 'Thêm Mã giảm giá mới';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_add');
@@ -39,6 +41,7 @@ function formatDateForInput(dateString) {
     
     // Modal Sửa thông tin Mã giảm giá 
     $('.open_edit_form').on('click', function () {
+        isCheck=true;
         modalTitle.textContent = 'Chỉnh sửa thông tin Mã giảm giá';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_update');
@@ -107,9 +110,14 @@ function DiscountValidateError() {
         error = true;
     }
 
+    // Lấy ngày hiện tại, chỉ lấy phần "YYYY-MM-DD"
+    var today = new Date().toISOString().split('T')[0];
     // Kiểm tra ngày bắt đầu
     if (ngaybatdau === '') {
         $('.text-message.discount-start-msg').text('Ngày bắt đầu không được để trống');
+        error = true;
+    } else if (!isCheck && ngaybatdau < today) {
+        $('.text-message.discount-start-msg').text('Ngày bắt đầu phải từ hôm nay trở đi');
         error = true;
     }
 
