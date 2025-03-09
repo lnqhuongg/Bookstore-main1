@@ -64,7 +64,7 @@
                     $imagePath = "/DoAnWeb2/Bookstore-main1/assets/uploads/" . $banner->getHinhanh();
                     ?>
                     <td class="align-middle text-center">
-                        <img src="<?= $imagePath ?>" alt="Banner Image" style="max-width: 280px; height: auto;">
+                        <img src="<?= $imagePath ?>" alt="Banner Image" style="width: 160px; height: 120px; object-fit: cover; border-radius: 5px;">
                     </td>
                   <!-- Mô tả -->
                     <td class="  align-middle text-center description" style="max-width: 150px; word-wrap: break-word;">
