@@ -27,7 +27,8 @@ $(document).ready(function () {
             element.style.display = 'none';
         });
     });
-    // Hàm định dạng ngày về YYYY-MM-DD (chuẩn cho input type="date")
+
+// Hàm định dạng ngày về YYYY-MM-DD (chuẩn cho input type="date")
 function formatDateForInput(dateString) {
     if (!dateString) return ''; // Nếu không có dữ liệu thì trả về chuỗi rỗng
     
@@ -132,15 +133,6 @@ function DiscountValidateError() {
 
     return error;
     }
-
-    // $('#discountForm').submit(function(event) {
-    // event.preventDefault();
-
-    // if (DiscountValidateError()) {
-    //     return;  // Nếu có lỗi, dừng không gửi form
-    // }
-
-    // var formData = new FormData($('#discountForm')[0]);
 
     $(document).on('submit', '#discountForm', function(event) {
         // Prevent the default form submission

@@ -7,7 +7,7 @@ class Discount{
     private int $trangthai;
 
     // Hàm khởi tạo
-    function __construct(float $phantram, string $ngaybatdau,string $ngayketthuc, int $trangthai = 0, int $idMGG = 0){
+    function __construct(float $phantram = 0, string $ngaybatdau ="",string $ngayketthuc ="", int $trangthai = 0, int $idMGG = 0){
         $this->idMGG= $idMGG;
         $this->phantram = $phantram;
         $this->ngaybatdau = $ngaybatdau;

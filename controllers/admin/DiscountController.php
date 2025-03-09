@@ -8,7 +8,7 @@
         function __construct()
         {
             $this->folder = 'admin';
-            $this->discount = new Discount(0, '', '', 0, 0);
+            $this->discount = new Discount();
         }
 
         // Load data lên table
