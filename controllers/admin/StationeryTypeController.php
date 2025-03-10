@@ -38,31 +38,14 @@
         function add(){
             $this->type = new StationeryType($_POST['lvpp_name'], 1);
             
-            // Kiểm tra tên loại đã tồn tại
-            if (StationeryType::isExist(null, $_POST['lvpp_name'])) {
-                echo json_encode(array(
-                    'btn' => 'add',
-                    'success' => false,
-                    'message' => 'Tên loại văn phòng phẩm đã tồn tại'
-                ));
-                exit;
-            }
-        
             // Thực hiện thêm loại văn phòng phẩm
             $req = $this->type->add();
         
             if($req) {
-                echo json_encode(array(
-                    'btn' => 'add',
-                    'success' => true,
-                    'message' => 'Thêm loại văn phòng phẩm thành công'
-                ));
-            } else {
-                echo json_encode(array(
-                    'btn' => 'add',
-                    'success' => false,
-                    'message' => 'Có lỗi xảy ra, vui lòng thử lại'
-                ));
+                echo json_encode(array('btn'=>'add','success'=>true));
+            } 
+            else {
+                echo json_encode(array('btn'=>'add','success'=>false));
             }
             exit;
         }

@@ -51,32 +51,16 @@ class StationeryType {
             $con = new Database();
             return ($con->getOne($sql))!=null;
         }
-        
-        public function add() {
-            $con = new Database();
-            $link = $con->getLink();
-        
-            // Kiểm tra tên loại đã tồn tại chưa
-            if (self::isExist(null, $this->tenLoai)) {
-                return false; // Ngăn không cho thêm nếu tên đã tồn tại
+        function add(){
+            // Check nếu đã tồn tại tác giả trùng khớp email tác giả 
+            if(!(StationeryType::isExist($this->idLoai, $this->tenLoai))){
+                $sql = 'INSERT INTO loai_vpp (tenLoai, trangthai) VALUES ("'.$this->tenLoai.'",'.$this->trangthai.')';
+                $con = new Database();
+                // Thực hiện câu lệnh sql trên - Hàm excecute được viết sẵn (trong class Database ở folder lib)
+                $con->execute($sql);
+                return true;
             }
-        
-            $sql = "INSERT INTO loai_vpp (tenLoai, trangthai) VALUES (?, ?)";
-            $stmt = $link->prepare($sql);
-        
-            if ($stmt === false) {
-                die("Lỗi SQL: " . $link->error);
-            }
-        
-            $stmt->bind_param("si", $this->tenLoai, $this->trangthai);
-            $result = $stmt->execute();
-        
-            if ($result) {
-                $this->idLoai = $con->getLastInsertId();
-            }
-        
-            $stmt->close();
-            return $result;
+            return false;
         }
         function update(){
             // Check nếu đã tồn tại tên thể loại trùng khớp 
