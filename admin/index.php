@@ -39,7 +39,7 @@
                 include '../controllers/admin/CatalogController.php';
                 break;
             // Trang Loại văn phòng phẩm
-            case 'stationeryType':
+            case 'stationery-Type':
                 include '../controllers/admin/StationeryTypeController.php';
                 break;
             // Trang Phiếu nhập sản phẩm 

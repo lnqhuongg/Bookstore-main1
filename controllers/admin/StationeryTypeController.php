@@ -12,13 +12,11 @@
         }
 
         function index(){
-            // $accounts = Account::getAll();
-            // $roles = Role::getAll();
-            // $result = [
-            //     'paging' => $accounts,
-            //     'roles' => $roles
-            // ];
-            $this->render('StationeryType', null);
+            $stationeryTypes = StationeryType::getAll();
+            $result = [
+                'paging' => $stationeryTypes
+            ];
+            $this->render('StationeryType',$result, true);
         }
 
         function checkAction($action){
@@ -26,15 +24,81 @@
                 case 'index':
                     $this->index();
                     break;
+                case 'submit_btn_add':
+                    $this->add();
+                    break;
+                case 'show_data':
+                    $this->show_data();
+                    break;
+                case 'submit_btn_update':
+                    $this->update();
+                    break;
             }
+        }
+        function add(){
+            $this->type = new StationeryType($_POST['lvpp_name'], 1);
+            
+            // Kiểm tra tên loại đã tồn tại
+            if (StationeryType::isExist(null, $_POST['lvpp_name'])) {
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => false,
+                    'message' => 'Tên loại văn phòng phẩm đã tồn tại'
+                ));
+                exit;
+            }
+        
+            // Thực hiện thêm loại văn phòng phẩm
+            $req = $this->type->add();
+        
+            if($req) {
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => true,
+                    'message' => 'Thêm loại văn phòng phẩm thành công'
+                ));
+            } else {
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra, vui lòng thử lại'
+                ));
+            }
+            exit;
+        }
+        function show_data(){
+            $stationnaryType = StationeryType::findByID($_POST['lvpp_id']);
+            if ($stationnaryType == null) {
+                echo json_encode(['success' => false, 'message' => 'Không tìm thấy dữ liệu']);
+            } else {
+                echo json_encode(['success' => true, 'data' => $stationnaryType->toArray()]);
+            }
+            exit;
+        }
+        
+
+        function update(){
+            // lấy dữ liệu từ form nếu có thay đổi (nhấn vào nút - submit)
+            $idLoai = $_POST['lvpp_id'];
+            $tenLoai = $_POST['lvpp_name'];
+            $trangthai = isset($_POST['status']) ? 1 : 0;
+
+            $this->type = new StationeryType($tenLoai, $trangthai, $idLoai);
+            $req = $this->type->update();
+            
+            if($req) echo json_encode(array('btn'=>'update','success'=>true));
+            else echo json_encode(array('btn'=>'update','success'=>false));
+            exit;
         }
 
     }
 
     $stationeryTypeController = new StationeryTypeController();
-    $action = 'index';
+    // $action = 'index';
     // if(isset($_GET['page']) && $_GET['page'] == 'searchAccount') $action = 'search';
     // else if(!isset($_POST['action'])) $action = 'index';
     // else $action = $_POST['action'];
+    if(!isset($_POST['action'])) $action = 'index';
+    else $action = $_POST['action'];
     $stationeryTypeController->checkAction($action);
 ?>
