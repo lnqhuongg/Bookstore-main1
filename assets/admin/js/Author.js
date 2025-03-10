@@ -124,33 +124,32 @@ $(document).ready(function () {
                     if(obj.success){
                         if(obj.btn == 'add') {
                             // console.log("Đang gọi toast()...");
-                            // toast({
-                            //     title: 'Thành công',
-                            //     message: 'Thêm tác giả thành công',
-                            //     type: 'success',
-                            //     duration: 3000
-                            // });
-                            alert('Thêm thành công');
+                            toast({
+                                title: 'Thành công',
+                                message: 'Thêm tác giả thành công',
+                                type: 'success',
+                                duration: 3000
+                            });
                         } else {
-                            // console.log("Đang gọi toast()...");
-                            // toast({
-                            //     title: 'Thành công',
-                            //     message: 'Cập nhật tác giả thành công',
-                            //     type: 'success',
-                            //     duration: 3000
-                            // });
-                            alert('Cập nhật thành công');
+                            console.log("Đang gọi toast()...");
+                            toast({
+                                title: 'Thành công',
+                                message: 'Cập nhật tác giả thành công',
+                                type: 'success',
+                                duration: 3000
+                            });
+                            // alert('Cập nhật thành công');
                         }
                     }
                     else {
-                        // console.log("Đang gọi toast()...");
-                        // toast({
-                        //     title: 'Lỗi',
-                        //     message: 'Email đã tồn tại',
-                        //     type: 'error',
-                        //     duration: 3000
-                        // });
-                        alert('email đã tồn tại');
+                        console.log("Đang gọi toast()...");
+                        toast({
+                            title: 'Lỗi',
+                            message: 'Email đã tồn tại',
+                            type: 'error',
+                            duration: 3000
+                        });
+                       
                     }
                 },
             });
