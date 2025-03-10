@@ -17,10 +17,10 @@ $(document).ready(function () {
   const modalSaveBtn = document.getElementById("saveModalBtn");
   let submit_btn = document.getElementById("submit_btn");
 
-  // Modal Thêm Danh mục sách
+  // Modal Thêm
   $(".open_add_form").on("click", function () {
     isCheck = false;
-    modalTitle.textContent = "Thêm Danh mục sách mới";
+    modalTitle.textContent = "Thêm danh mục mới";
     submit_btn.setAttribute("name", "action");
     submit_btn.setAttribute("value", "submit_btn_add");
     document
@@ -32,10 +32,10 @@ $(document).ready(function () {
       });
   });
 
-  // Modal Sửa thông tin Danh mục sách
+  // Modal Sửa thông tin
   $(".open_edit_form").on("click", function () {
     isCheck = true;
-    modalTitle.textContent = "Chỉnh sửa thông tin Danh mục sách";
+    modalTitle.textContent = "Chỉnh sửa thông tin Danh mục";
     submit_btn.setAttribute("name", "action");
     submit_btn.setAttribute("value", "submit_btn_update");
     var catalog_id = $(this).closest("tr").find(".catalog_id").text();
@@ -57,7 +57,7 @@ $(document).ready(function () {
           console.log(obj);
 
           $("#catalog_id").val(obj.data.idTL);
-          $("#catalog_name").val(obj.data.name);
+          $("#catalog_percent").val(obj.data.tenTL);
           $("#status").val(obj.data.trangthai);
 
           if (parseInt(obj.data.trangthai)) {
@@ -75,17 +75,17 @@ $(document).ready(function () {
   });
 
   // Validate dữ liệu nhập
-  function CatalogValidateError() {
+  function CatalogController() {
     // Xóa thông báo lỗi cũ
     $(".text-message.catalog-name-msg").text("");
 
     // Lấy giá trị input
-    var name = $("#catalog_name").val().trim();
+    var tentl = $("#catalog_name").val().trim();
 
     var error = false;
 
-    // Kiểm tra tên danh mục
-    if (name === "") {
+    // Kiểm tra phần trăm giảm giá
+    if (tentl === "") {
       $(".text-message.catalog-name-msg").text(
         "Tên danh mục không được để trống"
       );
