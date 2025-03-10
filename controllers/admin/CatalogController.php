@@ -81,7 +81,7 @@
     }
 
     $catalogController = new CatalogController();
-    $action = 'index';
+    //$action = 'index';
     // if(isset($_GET['page']) && $_GET['page'] == 'searchAccount') $action = 'search';
     // else if(!isset($_POST['action'])) $action = 'index';
     // else $action = $_POST['action'];
