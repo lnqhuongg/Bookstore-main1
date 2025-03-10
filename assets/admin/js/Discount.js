@@ -173,6 +173,13 @@ function formatDateForInput(dateString) {
                             });
                             // alert('Cập nhật thành công');
                         }
+                    }else {
+                        toast({
+                            title: 'Thất bại',
+                            message: "Thêm banner thất bại",
+                            type: 'error',
+                            duration: 3000
+                        });
                     }
                 },
             });

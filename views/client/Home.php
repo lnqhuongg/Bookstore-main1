@@ -1,13 +1,21 @@
 <section class="slider mt-3 mt-md-0 border-bottom pb-5">
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
       <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <?php
+              $i = 0;
+              $banners = $result['banners'];
+              foreach($banners as $index => $item) {
+          ?>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?= $index ?>" 
+                  class="<?= $index == 0 ? 'active' : '' ?>" 
+                  aria-current="<?= $index == 0 ? 'true' : 'false' ?>" 
+                  aria-label="Slide <?= $index + 1 ?>"></button>
+          <?php
+              }
+          ?>
       </div>
       <div class="carousel-inner">
             <?php
-              $banners = $result['banners'];
               // var_dump($banners);
               $i = 1;
               foreach($banners as $item){

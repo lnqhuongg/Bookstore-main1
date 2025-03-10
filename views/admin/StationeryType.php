@@ -36,29 +36,48 @@
                 <th scope="col">Tùy chỉnh</th>
               </tr>
             </thead>
-            <tbody  class="table-group-divider">
+            <tbody class="table-group-divider">
+                    <?php
+                      $stationeryTypes = $result['paging']; 
+                        if($stationeryTypes == null) {
+                          echo '<tr><td colspan="6">Không có dữ liệu</td> </tr>';
+                          echo '</tbody></table></div></div>';
+                      } else {
+                      echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
+                      // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
+                      for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
+                          $stationeryType = $stationeryTypes[$i];
+                    ?>
                 <tr>
-                  <!-- Mã danh mục -->
-                    <td class="align-middle text-center" scope="row">
-                        LVPP001
+                  <!-- Mã vpp -->
+                    <td class="align-middle text-center discount_id" scope="row">
+                      <?=$stationeryType->getIdLoai()?>
                     </td>
-                  <!-- Tên danh mục -->
-                    <td class="  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        Bút bi
+                  <!-- Tên vpp -->
+                    <td class="  align-middle text-center discount_percent" style="max-width: 150px; word-wrap: break-word;">
+                    <?=$stationeryType->getTenLoai()?>
                     </td>
                   <!-- Trạng thái -->
-                    <td class=" align-middle text-center text-success fw-bold">
-                        Hoạt động
+                    <td class="align-middle text-center text-success fw-bold">
+                        <?php
+                            if($stationeryType->getTrangthai())
+                                echo '<span class="align-middle text-center text-success fw-bold">Đang hoạt động</span>';
+                            else
+                                echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
+                        ?>
                     </td>
                   <!-- Tùy chỉnh -->
                     <td class="align-middle text-center">
                         <!-- Button chỉnh sửa -->
-                          <!-- Button trigger modal -->
-                          <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditTypeStationery">
-                            <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
-                          </button>
+                        <!-- Button trigger modal -->
+                        <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditTypeStationery">
+                          <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                        </button>
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
       </div>
@@ -69,23 +88,16 @@
     <div class="col-md-12 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item me-2">
-                <a class="page-link rounded-circle" href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="pre fa-solid fa-angle-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item me-2 "><a class="page-link rounded-circle" href="#">1</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">2</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link rounded-circle" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="next fa-solid fa-angle-right"></i></span>
-                </a>
-              </li>
+              <?php
+                echo $pagingButton;
+              ?>
             </ul>
         </nav>   
     </div>
   </div>
+  <?php
+      }
+  ?>
 
   <!-- Modal -->
   <div class="modal fade" id="staticBackdropEditTypeStationery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelEditTypeStationery" aria-hidden="true">
@@ -96,11 +108,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" id="stationeryTypeForm">
+          <input type="hidden" name="lvpp_id" id="lvpp_id" value="">
           <div class="modal-body">
             <div class="row mb-3">
                 <label for="" class=" col-sm-3 col-form-label fw-medium text-start">Loại văn phòng phẩm</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="" placeholder="Nhập tên Loại văn phòng phẩm...">
+                  <input type="text" class="form-control" id="lvpp_name" name="lvpp_name" placeholder="Nhập tên Loại văn phòng phẩm...">
+                  <span class="text-message text-danger lvpp-name-msg"></span>
                 </div>
             </div>
             <div class="edit">
@@ -116,7 +130,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="submit_btn">Xác nhận</button>
+            <input type="hidden" name="" id="submit_btn">
+            <button type="submit" class="btn btn-success" id="submit_btn" name="action">Xác nhận</button>
           </div>
         </form>
       </div>

@@ -34,4 +34,87 @@ $(document).ready(function () {
         // let product_id = $(this).closest('tr').find('.product_id').text();
         console.log('hello');
     });
+    function StationeryTypeValidateError() {
+        // Xóa thông báo lỗi cũ
+        $('.text-message.lvpp-name-msg').text('');
+    
+        // Lấy giá trị input
+        var tenLoaiVpp = $('#lvpp_name').val().trim();
+    
+        // Regex kiểm tra chỉ chứa chữ cái và khoảng trắng
+        var regexTenLoaiVpp = /^[a-zA-ZÀ-Ỹà-ỹ\s]+$/;
+    
+        var error = false;
+    
+        // Kiểm tra tên loại văn phòng phẩm
+        if (tenLoaiVpp === '') {
+            $('.text-message.lvpp-name-msg').text('Tên thể loại không được để trống');
+            error = true;
+        } else if (!regexTenLoaiVpp.test(tenLoaiVpp)) {
+            $('.text-message.lvpp-name-msg').text('Tên thể loại chỉ được chứa chữ cái, không có số hoặc ký tự đặc biệt');
+            error = true;
+            
+        }
+        console.log(error);
+        return error;
+
+        
+    }
+
+    $(document).on('submit', '#stationeryTypeForm', function(event) {
+        // Prevent the default form submission
+        console.log("hahahaha");
+        event.preventDefault();
+        
+        if(!StationeryTypeValidateError()){
+            // Serialize form data
+            var formData = new FormData( $('#stationeryTypeForm')[0]);
+
+            $.ajax({
+                url: '../controllers/admin/StationeryTypeController.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                    const obj = JSON.parse(response);
+                    console.log(obj);
+                    
+                    if(obj.success){
+                        if(obj.btn == 'add') {
+                            // console.log("Đang gọi toast()...");
+                            toast({
+                                title: 'Thành công',
+                                message: obj.message,
+                                type: 'success',
+                                duration: 3000
+                            });
+                            // alert('Thêm thành công');
+                        } else {
+                            // console.log("Đang gọi toast()...");
+                            toast({
+                                title: 'Thành công',
+                                message: 'Cập nhật loại văn phòng phẩm thành công',
+                                type: 'success',
+                                duration: 3000
+                            });
+                            // alert('Cập nhật thành công');
+                        }
+                    }else {
+                        toast({
+                            title: 'Thất bại',
+                            message: obj.message,
+                            type: 'error',
+                            duration: 3000
+                        });
+                    }
+                },
+            });
+        }
+    });
 });
+
+
+
+

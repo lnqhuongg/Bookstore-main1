@@ -101,6 +101,20 @@ class Banner{
     
         return $result;
     }
+
+    static function getAllActive(){
+        $list = [];
+        $sql = 'SELECT * FROM banner WHERE trangthai = 1';
+        $con = new Database();
+        $req = $con->getAll($sql);
+
+        foreach($req as $item){
+            $banner= new Banner( $item['mota'], $item['hinhanh'], $item['trangthai'],$item['idBN']);
+            $list[] = $banner;
+        }
+        return $list;
+    }
+    
     
 
 

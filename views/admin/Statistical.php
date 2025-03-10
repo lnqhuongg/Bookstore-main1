@@ -207,8 +207,7 @@
     <!-- js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/assets/js/admin/uploadImg.js"></script>
-    <script src="/assets/js/admin/chartRevenue.js"></script>
-    <script src="/assets/js/admin/chartTop.js"></script>
+    <script src="../assets/admin/js/Dashboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://unpkg.com/bs-brain@2.0.4/components/charts/chart-4/assets/controller/chart-4.js"></script>
 </body>
