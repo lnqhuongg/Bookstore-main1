@@ -7,16 +7,7 @@ class Discount{
     private int $trangthai;
 
     // Hàm khởi tạo
-    function __construct(){
-        $this->idMGG= 0;
-        $this->phantram = 0;
-        $this->ngaybatdau = '';
-        $this->ngayketthuc = '';
-        $this->trangthai = 0;
-    }
-    
-    // Hàm khởi tạo có tham số
-    function nhap(float $phantram, string $ngaybatdau,string $ngayketthuc, int $trangthai, int $idMGG = 0){
+    function __construct(float $phantram = 0, string $ngaybatdau ="",string $ngayketthuc ="", int $trangthai = 0, int $idMGG = 0){
         $this->idMGG= $idMGG;
         $this->phantram = $phantram;
         $this->ngaybatdau = $ngaybatdau;
@@ -42,8 +33,7 @@ class Discount{
         $req = $con->getAll($sql);
 
         foreach($req as $item){
-            $discount = new self();
-            $discount->nhap($item['phantram'], $item['ngaybatdau'], $item['ngayketthuc'], $item['trangthai'],$item['idMGG']);
+            $discount= new Discount($item['phantram'], $item['ngaybatdau'], $item['ngayketthuc'], $item['trangthai'],$item['idMGG']);
             $list[] = $discount;
         }
         return $list;
@@ -55,25 +45,24 @@ class Discount{
         $con = new Database();
         $req = $con->getOne($sql);
         if($req!=null){
-            $discount = new Discount();
-            $discount->nhap($req['phantram'],$req['ngaybatdau'], $req['ngayketthuc'], $req['trangthai'],$req['idMGG']);
+            $discount = new Discount($req['phantram'],$req['ngaybatdau'], $req['ngayketthuc'], $req['trangthai'],$req['idMGG']);
             return $discount;
         }
         return null;
     }
 
     // Tìm discount theo phantram
-    static function findByPercent($phantram){
-        $sql = 'SELECT * FROM magiamgia WHERE phantram='.$phantram;
-        $con = new Database();
-        $req = $con->getOne($sql);
-        if($req!=null){
-            $discount = new Discount();
-            $discount->nhap($req['idMGG'],$req['ngaybatdau'], $req['ngayketthuc'], $req['trangthai'], $req['phantram']);
-            return $discount;
-        }
-        return null;
-    }
+    // static function findByPercent($phantram){
+    //     $sql = 'SELECT * FROM magiamgia WHERE phantram='.$phantram;
+    //     $con = new Database();
+    //     $req = $con->getOne($sql);
+    //     if($req!=null){
+    //         $discount = new Discount();
+    //         $discount->nhap($req['idMGG'],$req['ngaybatdau'], $req['ngayketthuc'], $req['trangthai'], $req['phantram']);
+    //         return $discount;
+    //     }
+    //     return null;
+    // }
 
     // Thêm
     public function add(){

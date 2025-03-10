@@ -8,7 +8,7 @@
         function __construct()
         {
             $this->folder = 'admin';
-            $this->discount= new Discount();
+            $this->discount = new Discount();
         }
 
         // Load data lên table
@@ -39,7 +39,7 @@
 
         // add
         function add(){
-            $this->discount->nhap($_POST['discount_percent'], $_POST['discount_begin'], $_POST['discount_end'], 1);
+            $this->discount = new  Discount($_POST['discount_percent'], $_POST['discount_begin'], $_POST['discount_end'], 1);
             
             // khởi tạo biến request lưu kết quả trả về từ phương thức add() ở class Discount
             $req = $this->discount->add();
@@ -72,7 +72,7 @@
             $ngayketthuc = $_POST['discount_end'];
             $trangthai = isset($_POST['status']) ? 1 : 0;
 
-            $this->discount->nhap($phantram, $ngaybatdau, $ngayketthuc, $trangthai, $idMGG);
+            $this->discount = new Discount($phantram, $ngaybatdau, $ngayketthuc, $trangthai, $idMGG);
             $req = $this->discount->update();
             
             if($req) echo json_encode(array('btn'=>'update','success'=>true));

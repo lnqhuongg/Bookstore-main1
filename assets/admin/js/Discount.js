@@ -1,3 +1,4 @@
+let isCheck=false;
 // reload lại form 
 document.getElementById('staticBackdropEditDiscount').addEventListener('hidden.bs.modal', function () {
     document.getElementById('discountForm').reset();
@@ -17,6 +18,7 @@ $(document).ready(function () {
 
     // Modal Thêm Mã giảm giá 
     $('.open_add_form').on('click', function () {
+        isCheck=false;
         modalTitle.textContent = 'Thêm Mã giảm giá mới';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_add');
@@ -25,20 +27,22 @@ $(document).ready(function () {
             element.style.display = 'none';
         });
     });
-    // Hàm định dạng ngày về YYYY-MM-DD (chuẩn cho input type="date")
-    function formatDateForInput(dateString) {
-        if (!dateString) return ''; // Nếu không có dữ liệu thì trả về chuỗi rỗng
-        
-        let date = new Date(dateString);
-        let year = date.getFullYear();
-        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 nếu cần
-        let day = date.getDate().toString().padStart(2, '0'); 
+
+// Hàm định dạng ngày về YYYY-MM-DD (chuẩn cho input type="date")
+function formatDateForInput(dateString) {
+    if (!dateString) return ''; // Nếu không có dữ liệu thì trả về chuỗi rỗng
+    
+    let date = new Date(dateString);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 nếu cần
+    let day = date.getDate().toString().padStart(2, '0'); 
 
         return `${year}-${month}-${day}`; // Trả về định dạng YYYY-MM-DD
     }
     
     // Modal Sửa thông tin Mã giảm giá 
     $('.open_edit_form').on('click', function () {
+        isCheck=true;
         modalTitle.textContent = 'Chỉnh sửa thông tin Mã giảm giá';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_update');
@@ -107,11 +111,16 @@ $(document).ready(function () {
             error = true;
         }
 
-        // Kiểm tra ngày bắt đầu
-        if (ngaybatdau === '') {
-            $('.text-message.discount-start-msg').text('Ngày bắt đầu không được để trống');
-            error = true;
-        }
+    // Lấy ngày hiện tại, chỉ lấy phần "YYYY-MM-DD"
+    var today = new Date().toISOString().split('T')[0];
+    // Kiểm tra ngày bắt đầu
+    if (ngaybatdau === '') {
+        $('.text-message.discount-start-msg').text('Ngày bắt đầu không được để trống');
+        error = true;
+    } else if (!isCheck && ngaybatdau < today) {
+        $('.text-message.discount-start-msg').text('Ngày bắt đầu phải từ hôm nay trở đi');
+        error = true;
+    }
 
         // Kiểm tra ngày kết thúc
         if (ngayketthuc === '') {
@@ -124,15 +133,6 @@ $(document).ready(function () {
 
         return error;
         }
-
-    // $('#discountForm').submit(function(event) {
-    // event.preventDefault();
-
-    // if (DiscountValidateError()) {
-    //     return;  // Nếu có lỗi, dừng không gửi form
-    // }
-
-    // var formData = new FormData($('#discountForm')[0]);
 
     $(document).on('submit', '#discountForm', function(event) {
         // Prevent the default form submission
