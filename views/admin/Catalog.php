@@ -5,7 +5,7 @@
         Quản lý danh mục
     </h4>
   </div>
-  <!-- row search, button thêm danh mục -->
+  <!-- row search, button  -->
   <div class="row py-3 px-1 mb-2">
     <!-- Form tìm kiếm -->
     <div class="col-md-11 d-flex">
@@ -14,7 +14,7 @@
           <button class="btn btn-success btn-sm " >Tìm kiếm</button>
       </form>
     </div>
-    <!-- Button thêm danh mục -->
+    <!-- Button thêm -->
     <div class="col-md-1 d-flex justify-content-end">
       <!-- Button trigger modal -->
       <button style="width:110px" type="button" class="btn btn-success btn-sm open_add_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditCatalog">
@@ -36,18 +36,18 @@
                 <th scope="col">Tùy chỉnh</th>
               </tr>
             </thead>
-            <tbody  class="table-group-divider">
-              <?php
-                $catalogs = $result['paging']; 
-                if($catalogs == null) {
-                  echo '<tr><td colspan="6">Không có dữ liệu</td> </tr>';
-                  echo '</tbody></table></div></div>';
-                } else {
-                  echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
-                  // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
-                  for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
-                    $catalog = $catalogs[$i];
-              ?>
+            <tbody class="table-group-divider">
+                    <?php
+                      $catalogs = $result['paging']; 
+                        if($catalogs == null) {
+                          echo '<tr><td colspan="4">Không có dữ liệu</td> </tr>';
+                          echo '</tbody></table></div></div>';
+                      } else {
+                      echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
+                      // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
+                      for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
+                          $catalog = $catalogs[$i];
+                    ?>
                 <tr>
                   <!-- Mã danh mục -->
                     <td class="align-middle text-center catalog_id" scope="row">
@@ -58,25 +58,25 @@
                       <?=$catalog->getTenTL()?>
                     </td>
                   <!-- Trạng thái -->
-                    <td class=" align-middle text-center text-success fw-bold">
-                      <?php
-                        if($catalog->getTrangthai())
-                          echo '<span class="align-middle text-center text-success fw-bold">Hoạt động</span>';
-                        else
-                          echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
+                    <td class="align-middle text-center text-success fw-bold">
+                        <?php
+                            if($catalog->getTrangthai())
+                                echo '<span class="align-middle text-center text-success fw-bold">Hoạt động</span>';
+                            else
+                                echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
                         ?>
                     </td>
                   <!-- Tùy chỉnh -->
                     <td class="align-middle text-center">
                         <!-- Button chỉnh sửa -->
-                          <!-- Button trigger modal -->
-                          <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditCatalog">
-                            <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
-                          </button>
+                        <!-- Button trigger modal -->
+                        <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditCatalog">
+                          <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                        </button>
                     </td>
                 </tr>
                 <?php
-                  }
+                    }
                 ?>
             </tbody>
         </table>
@@ -96,26 +96,28 @@
     </div>
   </div>
   <?php
-    }
+      }
   ?>
 
-   <!-- Modal -->
+  <!-- Modal -->
   <div class="modal fade" id="staticBackdropEditCatalog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelEditCatalog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="catalogModalLabel">Chỉnh sửa thông tin danh mục</h1>
+          <h1 class="modal-title fs-5" id="catalogModalLabel">Chỉnh sửa thông tin khuyến mãi</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" id="catalogForm">
-          <!-- <input type="hidden" name="catalog_id" id="catalog_id" value=""> -->
+          <input type="hidden" name="catalog_id" id="catalog_id" value="">
           <div class="modal-body">
             <div class="row mb-3">
                 <label for="" class=" col-sm-3 col-form-label fw-medium text-start">Tên danh mục</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="" placeholder="Nhập Tên danh mục sách...">
+                  <input type="text" class="form-control" id="catalog_name" name="catalog_name" placeholder="Nhập tên danh mục...">
+                  <span class="text-message text-danger catalog-name-msg"></span>
                 </div>
             </div>
+
             <div class="edit">
               <div class="row mb-3 d-flex justify-content-center align-items-center">
                   <label for="" class="col-sm-3 col-form-label fw-medium text-start">Trạng thái</label>
@@ -127,7 +129,6 @@
                   </div>
               </div>
             </div>
-          </div>
           <div class="modal-footer">
             <input type="hidden" name="" id="submit_btn">
             <button type="submit" class="btn btn-success" name="action">Xác nhận</button>
