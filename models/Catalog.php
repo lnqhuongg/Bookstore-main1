@@ -57,7 +57,7 @@ class Catalog{
         $link = $con->getLink();
     
         // Câu lệnh SQL dùng Prepared Statement
-        $sql = "INSERT INTO theloai (tenTL, trangthai) VALUES (?, ?)";
+        $sql = "INSERT INTO theloai (tenTL, trangthai, idTL) VALUES (?, ?, ?)";
     
         $stmt = $link->prepare($sql);
         if ($stmt === false) {
@@ -65,7 +65,7 @@ class Catalog{
         }
     
         // Gán giá trị vào SQL (d = double, s = string, i = integer)
-        $stmt->bind_param("si", $this->tenTL, $this->trangthai);
+        $stmt->bind_param("sii", $this->tenTL, $this->trangthai, $this->idTL);
     
         // Thực thi câu lệnh
         $result = $stmt->execute();
@@ -74,6 +74,7 @@ class Catalog{
         if ($result) {
             $this->idTL = $con->getLastInsertId();
         }
+    
         // Đóng câu lệnh
         $stmt->close();
         return $result;
@@ -95,9 +96,11 @@ class Catalog{
         $stmt->bind_param("sii", $this->tenTL, $this->trangthai, $this->idTL);
     
         // Thực thi câu lệnh
-        $result = $stmt->execute(); 
+        $result = $stmt->execute();
+    
         // Đóng câu lệnh
         $stmt->close();
+    
         return $result;
     }
 
