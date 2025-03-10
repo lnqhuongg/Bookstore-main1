@@ -8,7 +8,6 @@
         function __construct()
         {
             $this->folder = 'admin';
-            $this->account= new Account();
         }
 
         function index(){

@@ -132,7 +132,7 @@
                   <label for="" class="col-sm-3 col-form-label fw-medium text-start">Trạng thái</label>
                   <div class="d-flex align-items-center col-sm-9">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="status" name="status">
+                      <input class="form-check-input" type="checkbox" id="status" name="status" onchange="document.getElementById('status-label').textContent = this.checked ? 'Đang hoạt động' : 'Bị khóa';">
                       <label class="form-check-label" for="status" id="status-label">Đang hoạt động</label>
                     </div>
                   </div>

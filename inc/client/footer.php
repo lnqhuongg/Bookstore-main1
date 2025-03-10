@@ -5,7 +5,7 @@
             <!-- tuhoc -->
              <div class="col-md-3">
               <div class="branch-icon mb-2">
-                <img src="/assets/img/logo-new.png" alt="">
+                <img src="assets/client/img/logo-new.png" alt="">
               </div>
               <address class="small text-secondary">
                 Công ty TNHH Sách & Lịch Đại Nam Số ĐKKD 0704412399 do Sở KHĐT Tp. HCM cấp ngày 17/01/2004</br>

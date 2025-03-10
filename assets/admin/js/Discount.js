@@ -26,16 +26,16 @@ $(document).ready(function () {
         });
     });
     // Hàm định dạng ngày về YYYY-MM-DD (chuẩn cho input type="date")
-function formatDateForInput(dateString) {
-    if (!dateString) return ''; // Nếu không có dữ liệu thì trả về chuỗi rỗng
-    
-    let date = new Date(dateString);
-    let year = date.getFullYear();
-    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 nếu cần
-    let day = date.getDate().toString().padStart(2, '0'); 
+    function formatDateForInput(dateString) {
+        if (!dateString) return ''; // Nếu không có dữ liệu thì trả về chuỗi rỗng
+        
+        let date = new Date(dateString);
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 nếu cần
+        let day = date.getDate().toString().padStart(2, '0'); 
 
-    return `${year}-${month}-${day}`; // Trả về định dạng YYYY-MM-DD
-}
+        return `${year}-${month}-${day}`; // Trả về định dạng YYYY-MM-DD
+    }
     
     // Modal Sửa thông tin Mã giảm giá 
     $('.open_edit_form').on('click', function () {
@@ -81,49 +81,49 @@ function formatDateForInput(dateString) {
         });
     });
 
-// Validate dữ liệu nhập
-function DiscountValidateError() {
-    // Xóa thông báo lỗi cũ
-    $('.text-message.discount-percent-msg').text('');
-    $('.text-message.discount-start-msg').text('');
-    $('.text-message.discount-end-msg').text('');
+    // Validate dữ liệu nhập
+    function DiscountValidateError() {
+        // Xóa thông báo lỗi cũ
+        $('.text-message.discount-percent-msg').text('');
+        $('.text-message.discount-start-msg').text('');
+        $('.text-message.discount-end-msg').text('');
 
-    // Lấy giá trị input
-    var phantram = $('#discount_percent').val().trim();
-    var ngaybatdau = $('#discount_calendarInput_start').val().trim();
-    var ngayketthuc = $('#discount_calendarInput_end').val().trim();
+        // Lấy giá trị input
+        var phantram = $('#discount_percent').val().trim();
+        var ngaybatdau = $('#discount_calendarInput_start').val().trim();
+        var ngayketthuc = $('#discount_calendarInput_end').val().trim();
 
-    var error = false;
+        var error = false;
 
-    // Regex kiểm tra số phần trăm hợp lệ (số nguyên hoặc thập phân, không âm)
-    const regexPhanTram = /^(100(\.0{1,2})?|[1-9]?\d(\.\d{1,2})?)$/;
+        // Regex kiểm tra số phần trăm hợp lệ (số nguyên hoặc thập phân, không âm)
+        const regexPhanTram = /^(100(\.0{1,2})?|[1-9]?\d(\.\d{1,2})?)$/;
 
-    // Kiểm tra phần trăm giảm giá
-    if (phantram === '') {
-        $('.text-message.discount-percent-msg').text('Phần trăm không được để trống');
-        error = true;
-    } else if (!regexPhanTram.test(phantram)) {
-        $('.text-message.discount-percent-msg').text('Phần trăm phải là số từ 0 đến 100 (tối đa 2 chữ số thập phân)');
-        error = true;
-    }
+        // Kiểm tra phần trăm giảm giá
+        if (phantram === '') {
+            $('.text-message.discount-percent-msg').text('Phần trăm không được để trống');
+            error = true;
+        } else if (!regexPhanTram.test(phantram)) {
+            $('.text-message.discount-percent-msg').text('Phần trăm phải là số từ 0 đến 100 (tối đa 2 chữ số thập phân)');
+            error = true;
+        }
 
-    // Kiểm tra ngày bắt đầu
-    if (ngaybatdau === '') {
-        $('.text-message.discount-start-msg').text('Ngày bắt đầu không được để trống');
-        error = true;
-    }
+        // Kiểm tra ngày bắt đầu
+        if (ngaybatdau === '') {
+            $('.text-message.discount-start-msg').text('Ngày bắt đầu không được để trống');
+            error = true;
+        }
 
-    // Kiểm tra ngày kết thúc
-    if (ngayketthuc === '') {
-        $('.text-message.discount-end-msg').text('Ngày kết thúc không được để trống');
-        error = true;
-    } else if (ngaybatdau !== '' && new Date(ngayketthuc) <= new Date(ngaybatdau)) {
-        $('.text-message.discount-end-msg').text('Ngày kết thúc phải lớn hơn ngày bắt đầu');
-        error = true;
-    }
+        // Kiểm tra ngày kết thúc
+        if (ngayketthuc === '') {
+            $('.text-message.discount-end-msg').text('Ngày kết thúc không được để trống');
+            error = true;
+        } else if (ngaybatdau !== '' && new Date(ngayketthuc) <= new Date(ngaybatdau)) {
+            $('.text-message.discount-end-msg').text('Ngày kết thúc phải lớn hơn ngày bắt đầu');
+            error = true;
+        }
 
-    return error;
-    }
+        return error;
+        }
 
     // $('#discountForm').submit(function(event) {
     // event.preventDefault();

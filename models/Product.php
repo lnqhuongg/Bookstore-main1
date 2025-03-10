@@ -9,24 +9,11 @@
         protected int $trangthai;
         protected string $hinhanh;
         protected float $trongluong;
-        protected int $idMGG;
+        protected ?int $idMGG;
         protected int $idNCC;
 
-        public function __construct() {
-            $this->idSP = '';
-            $this->tenSP = '';
-            $this->mota = '';
-            $this->tonkho = 0;
-            $this->luotban = 0;
-            $this->giaban = 0.0;
-            $this->trangthai = 0;
-            $this->hinhanh = '';
-            $this->trongluong = 0.0;
-            $this->idMGG = 0;
-            $this->idNCC = 0;
-        }
-
-        public function nhap(string $idSP, string $tenSP, string $mota, int $tonkho, int $luotban, float $giaban, int $trangthai, string $hinhanh, float $trongluong, int $idMGG, int $idNCC) {
+        public function __construct(string $idSP = "", string $tenSP = "", string $mota= "", int $tonkho= 0, int $luotban = 0, float $giaban = 0.0, 
+        int $trangthai= 0, string $hinhanh= "", float $trongluong = 0.0, ?int $idMGG = NULL, int $idNCC= 0 ) {
             $this->idSP = $idSP;
             $this->tenSP = $tenSP;
             $this->mota = $mota;
@@ -38,6 +25,10 @@
             $this->trongluong = $trongluong;
             $this->idMGG = $idMGG;
             $this->idNCC = $idNCC;
+        }
+
+        static function newProducts() {
+            
         }
 
         public function getIdSP(): string {

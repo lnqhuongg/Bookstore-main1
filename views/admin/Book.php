@@ -11,10 +11,11 @@
     <div class="col-md-11 d-flex">
       <form class="d-flex w-100">
           <select class="form-select me-2" aria-label="Default select example" style="max-width: 200px;">
-              <option selected>Tất cả thể loại</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option value="-1" selected>Tất cả thể loại</option>
+              <?php
+                
+              ?>
+              <option value=""></option>
           </select>
           <input type="text" placeholder="Nhập mã, tên sách..." style="max-width: 360px;" class="form-control me-4" id="">
           <!-- div tìm kiếm theo khoảng giá -->
@@ -48,7 +49,7 @@
   <!-- row table -->
   <div class="row">
     <div class="col-md-12">
-      <div class=" pb-2 px-2 border rounded-3 shadow bg-white table-responsive">
+      <div class=" pb-2 px-2 border rounded-3 shadow bg-white ">
         <table class="table table-hover">
             <thead class="text-center">
               <tr>
@@ -63,30 +64,46 @@
               </tr>
             </thead>
             <tbody  class="table-group-divider">
+                <?php
+                      $books = $result['paging']; 
+                        if($books == null) {
+                          echo '<tr><td colspan="7">Không có dữ liệu</td> </tr>';
+                          echo '</tbody></table>< div></div>';
+                      } else {
+                      echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
+                      // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
+                      for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
+                          $book = $books[$i];
+                    ?>
                 <tr>
                   <!-- Mã sách -->
-                    <td class="align-middle text-center" scope="row">
-                        SP001
+                    <td class="align-middle text-center book_id" scope="row">
+                      <?=$book->getIdSP()?>
                     </td>
                   <!-- Hình ảnh sách -->
                     <td class="book-image text-center" scope="row">
-                        <img src="/assets/uploads/spdemo.jpg" style="width:120px" alt="">
+                        <img src="../assets/uploads/qh.jpg" style="width:120px" alt="">
                     </td>
                   <!-- Tên sách -->
                     <td class="book-name  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        Pháp Y Tống Từ  
+                        <?=$book->gettenSP()?>
                     </td>
                   <!-- Số lượng tồn kho -->
                     <td class="align-middle text-center">
-                        998
+                        <?=$book->getTonkho()?>
                     </td> 
                   <!-- Giá bán -->
                     <td class="align-middle text-center ">
-                        100.000đ
+                        <?=$book->getGiaban()?>
                     </td>
                   <!-- Trạng thái -->
                     <td class=" align-middle text-center text-success fw-bold">
-                        Hoạt động
+                        <?php
+                            if($book->getTrangthai())
+                                echo '<span class="align-middle text-center text-success fw-bold">Hoạt động</span>';
+                            else
+                                echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
+                        ?>
                     </td>
                   <!-- Tùy chỉnh -->
                     <td class="align-middle text-center">
@@ -95,12 +112,20 @@
                             <img src="../assets/admin/img/info.png" style="width:20px" alt="">
                         </button>
                         <!-- Button chỉnh sửa -->
-                          <!-- Button trigger modal -->
+                          <button class="btn btn-sm open_edit_form" data-id="<?= $book->getIdSP() ?>" data-bs-toggle="modal" data-bs-target="#staticBackdropEdit">
+                              
+                              <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                          </button>
+
+                          <!-- Button trigger modal
                           <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEdit">
                             <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
-                          </button>
+                          </button> -->
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
       </div>
@@ -111,23 +136,16 @@
     <div class="col-md-12 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item me-2">
-                <a class="page-link rounded-circle" href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="pre fa-solid fa-angle-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item me-2 "><a class="page-link rounded-circle" href="#">1</a></li>
-              <li class="page-item me-2"><a class="page-link rounded-circle" href="#">2</a></li>
-              <li class="page-item me-2"><a class="page-link rounded-circle" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link rounded-circle" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="next fa-solid fa-angle-right"></i></span>
-                </a>
-              </li>
+              <?php
+                echo $pagingButton;
+              ?>
             </ul>
         </nav>   
     </div>
   </div>
+  <?php
+      }
+  ?>
 <!-- Modal form popup -->
 <div class="modal fade" id="staticBackdropEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -162,23 +180,24 @@
             </div>
             <!-- col thông tin sách -->
             <div class="col-md-9 px-3">
+                <input type="hidden" name="book_id" id="book_id" value="">
                 <div class="row mb-3">
                   <label for="" class=" col-sm-2 col-form-label fw-medium text-start">Tên sách</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="" placeholder="Nhập tên sách...">
+                    <input type="text" class="form-control" name="book_name" id="book_name" placeholder="Nhập tên sách...">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="" class="col-sm-2 col-form-label fw-medium text-start">Nhà xuất bản</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="" placeholder="Nhập nhà xuất bản...">
+                    <input type="text" class="form-control" name="book_nxb" id="book_nxb" placeholder="Nhập nhà xuất bản...">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-md-6 d-flex justify-content-between">
                     <label for="" class="col-form-label fw-medium">Nhà cung cấp</label>
                     <!-- <input type="text" class="form-control"  id="" placeholder="" style="width: 255px; background-color: white; color: black" > -->
-                    <select class="form-select align-items-end" aria-label="Default select example" style="width: 255px">
+                    <select class="form-select align-items-end" name="book_ncc" id="book_ncc" aria-label="Default select example" style="width: 255px">
                       <option selected>Chọn nhà cung cấp</option>
                       <option value="1">One</option>
                       <option value="2">Two</option>
@@ -187,28 +206,26 @@
                   </div>
                   <div class="col-md-6 d-flex justify-content-between">
                     <label for="" class="col-form-label fw-medium ">Thể loại</label>
-                    <select class="form-select align-items-end" aria-label="Default select example" style="width: 290px">
+                    <select class="form-select align-items-end" name="book_idTL" id="book_idTL" aria-label="Default select example" style="width: 290px">
                       <option selected>Chọn thể loại</option>
                       <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
                     </select>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-md-6 d-flex justify-content-between">
                     <label for="" class="col-form-label fw-medium">Giá bìa</label>
-                    <input type="text" class="form-control" id="" placeholder="Nhập giá bìa (đồng)" style="width: 255px">
+                    <input type="text" class="form-control" name="book_giabia" id="book_giabia" placeholder="Nhập giá bìa (đồng)" style="width: 255px">
                   </div>
                   <div class="col-md-6 d-flex justify-content-between">
                     <label for="" class="col-form-label fw-medium">Trọng lượng</label>
-                    <input type="text" class="form-control" id="" placeholder="Nhập trọng lượng (gam)" style="width: 290px">
+                    <input type="text" class="form-control" name="book_trongluong" id="book_trongluong" placeholder="Nhập trọng lượng (gam)" style="width: 290px">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-md-6 d-flex justify-content-between">
                     <label for="" class="col-form-label fw-medium">Năm xuất bản</label>
-                    <input type="text" class="form-control" id="" placeholder="Nhập năm xuất bản..." style="width: 255px">
+                    <input type="text" class="form-control" name="book_namxb" id="book_namxb" placeholder="Nhập năm xuất bản..." style="width: 255px">
                   </div>
                 <!-- Cột tác giả -->
                 <div class="col-md-6 d-flex">
@@ -227,7 +244,7 @@
                   <div class="row mb-3 edit">
                     <label for="" class=" col-sm-2 col-form-label fw-medium text-start">Khuyến mãi</label>
                     <div class="col-sm-10">
-                      <select class="form-select col-sm-10" aria-label="Default select example" >
+                      <select class="form-select col-sm-10" name="book_idMGG" id="book_idMGG" aria-label="Default select example" >
                         <option selected>Chọn khuyến mãi</option>
                         <option value="">One</option>
                       </select>
@@ -237,7 +254,7 @@
                 <div class="row mb-3">
                   <div class="col-md-12 d-flex justify-content-between ">
                     <label for="" class="col-form-label fw-medium">Mô tả</label>
-                    <textarea class="form-control" aria-label="With textarea" style="width: 675px; max-height: 150px; overflow-y: auto;"></textarea>
+                    <textarea class="form-control" name="book_mota" id="book_mota" aria-label="With textarea" style="width: 675px; max-height: 150px; overflow-y: auto;"></textarea>
                   </div>
                 </div>
                 <div class="edit">
@@ -245,8 +262,8 @@
                     <label for="" class="col-sm-2 col-form-label fw-medium text-start">Trạng thái</label>
                     <div class="d-flex align-items-center col-sm-10">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="toggleSwitch" checked>
-                        <label class="form-check-label" for="toggleSwitch">Hoạt động</label>
+                        <input class="form-check-input" type="checkbox" id="toggleSwitch" name="status" id="status">
+                        <label class="form-check-label" id="status-label" for="status">Hoạt động</label>
                       </div>
                     </div>
                   </div>       
@@ -255,7 +272,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" id="submit_btn">Xác nhận</button>
+        <input type="hidden" name="" id="submit_btn">
+          <button type="submit" class="btn btn-success">Xác nhận</button>
         </div>
       </form>
     </div>

@@ -71,7 +71,7 @@
                     <td class="align-middle text-center text-success fw-bold">
                         <?php
                             if($discount->getTrangthai())
-                                echo '<span class="align-middle text-center text-success fw-bold">Hoạt động</span>';
+                                echo '<span class="align-middle text-center text-success fw-bold">Đang hoạt động</span>';
                             else
                                 echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
                         ?>

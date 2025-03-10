@@ -15,7 +15,8 @@
 
         function render($file, $result = array(), $paging = false) {
             $view_file = dirname(__FILE__).'/../views/'.$this->folder.'/'.$file.'.php';
-            
+            // var_dump($result);
+            // extract($result);
             if (is_file($view_file)) {
                 if($paging) {
                     $paging = new Pagination($this->folder, $file, $result['paging']);
@@ -25,6 +26,7 @@
             } else {
                 echo "Trang không tồn tại!";
             }
+            
         }
     }
 ?>

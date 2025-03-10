@@ -7,8 +7,7 @@
 
         function __construct()
         {
-            $this->folder = 'admin';
-            $this->author= new Author();
+            $this->folder = 'admin'; 
         }
 
         function index(){
@@ -37,7 +36,7 @@
         }
 
         function add(){
-            $this->author->nhap($_POST['author_name'], $_POST['author_email'], 1);
+            $this->author = new Author($_POST['author_name'], $_POST['author_email'], 1);
             
             // khởi tạo biến request lưu kết quả trả về từ phương thức add() ở class Author 
             $req = $this->author->add();
@@ -65,8 +64,11 @@
             $email = $_POST['author_email'];
             $trangthai = isset($_POST['status']) ? 1 : 0;
 
-            $this->author->nhap($tenTG, $email, $trangthai, $idTG);
+            $this->author = new Author($tenTG, $email, $trangthai, $idTG);
             $req = $this->author->update();
+
+            $this->author = new Author($tenTG, $email, $trangthai, $idTG);
+            $req = $this->author->update(); 
             
             if($req) echo json_encode(array('btn'=>'update','success'=>true));
             else echo json_encode(array('btn'=>'update','success'=>false));

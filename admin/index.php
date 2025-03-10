@@ -55,10 +55,10 @@
                 include '../controllers/admin/ProfileController.php';
                 break;
 
-            // Thống kê - Chưa làm hiển thị 
-            // case 'statistical':
-            //     include '../controllers/admin/ImportProductController.php';
-            //     break;
+            // Thống kê 
+            case 'dashboard':
+                include '../controllers/admin/StatisticalController.php';
+                break;
             
             // Không có trang đăng nhập riêng cho quản trị  
             default:

@@ -12,13 +12,11 @@
         }
 
         function index(){
-            // $accounts = Account::getAll();
-            // $roles = Role::getAll();
-            // $result = [
-            //     'paging' => $accounts,
-            //     'roles' => $roles
-            // ];
-            $this->render('Book', null);
+            $book = Book::getAll();
+            $result = [
+                'paging' => $book, 
+            ];
+            $this->render('Book', $result, true);
         }
 
         function checkAction($action){
@@ -26,8 +24,19 @@
                 case 'index':
                     $this->index();
                     break;
+            case 'show_data':
+                $this->show_data();
+                break;
             }
         }
+
+        function show_data(){
+            $book = Book::findByID($_POST['book_id']);
+            echo json_encode($book==null ? null: $book->toArray());
+            exit;
+        }
+
+        
 
     }
 

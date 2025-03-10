@@ -5,7 +5,7 @@
         private string $email;
         private int $trangthai;
 
-        function nhap($tenTG, $email, $trangthai, $idTG = 0){
+        function __construct(string $tenTG = "", string $email = "", int $trangthai = 0, $idTG = 0){
             $this->idTG = $idTG;
             $this->tenTG = $tenTG;
             $this->email = $email;
@@ -19,8 +19,7 @@
             $req = $con->getAll($sql);
 
             foreach($req as $item){
-                $author = new self();
-                $author->nhap($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
+                $author = new self($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
                 $list[] = $author;
             }
             return $list;
@@ -33,8 +32,7 @@
             $req = $con->getAll($sql);
 
             foreach($req as $item){
-                $author = new self();
-                $author->nhap($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
+                $author = new self($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
                 $list[] = $author;
             }
             return $list;
@@ -54,8 +52,7 @@
             $con = new Database();
             $req = $con->getOne($sql);
             if($req!=null){
-                $author = new Author();
-                $author->nhap($req['tenTG'], $req['email'], $req['trangthai'], $req['idTG']);
+                $author = new self($req['tenTG'], $req['email'], $req['trangthai'], $req['idTG']);
                 return $author;
             }
             return null;
@@ -94,13 +91,12 @@
             $sql = 'SELECT DISTINCT idTG, tenTG, email, trangthai
             FROM tacgia
             WHERE 1';
-            if($kyw != NULL) $sql .= ' AND (idTG LIKE "%'.$kyw.'%" OR tenTG LIKE "%'.$kyw.'%" OR email LIKE "%'.$kyw.'%")';
+            if($kyw != NULL) $sql .= ' AND (idTG LIKE "%'.$kyw.'%" OR tenTG LIKE "%'.$kyw.'%" ORgm email LIKE "%'.$kyw.'%")';
             $list = [];
             $con = new Database();
             $req = $con->getAll($sql);
             foreach($req as $item){
-                $author = new self();
-                $author->nhap($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
+                $author = new self($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
                 $list[] = $author;
             }
             return $list;
