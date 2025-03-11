@@ -142,7 +142,7 @@ $(document).ready(function () {
                     else{
                         toast({
                             title: 'Thất bại',
-                            message: 'Cập nhật loại văn phòng phẩm thất bại,tên loại văn phòng phẩm không được trùng trùng',
+                            message: 'Tên loại văn phòng phẩm đã tồn tại',
                             type: 'error',
                             duration: 4000
                         });
