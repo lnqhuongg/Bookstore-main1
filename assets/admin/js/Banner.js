@@ -180,7 +180,7 @@ $(document).on('submit', '#bannerForm', function(event) {
                         // console.log("Đang gọi toast()...");
                         toast({
                             title: 'Thành công',
-                            message: 'Thêm banner thành công',
+                            message: obj.message,
                             type: 'success',
                             duration: 3000
                         });
@@ -198,7 +198,7 @@ $(document).on('submit', '#bannerForm', function(event) {
                 }else {
                     toast({
                         title: 'Thất bại',
-                        message: "Thêm banner thất bại",
+                        message:obj.message,
                         type: 'error',
                         duration: 3000
                     });

@@ -54,32 +54,39 @@
         
         
         // addadd
-        function add(){
-            // Kiểm tra xem file có được tải lên không
-            if (!isset($_FILES['uploadImage1']) || $_FILES['uploadImage1']['error'] != 0) {
-                echo json_encode(array('btn' => 'add', 'success' => false, 'error' => 'File upload error', 'file' => $_FILES['uploadImage1']));
-                exit;
-            }
-        
-            // Thư mục upload
-            $upload_dir = '../../assets/uploads/';
-        
-            // Gọi hàm upload ảnh
-            $imageName = $this->uploadImage($_FILES['uploadImage1'], $upload_dir);
-        
-            // Tạo đối tượng Banner với mô tả và ảnh
-            $this->banner = new Banner($_POST['description'], $imageName);
-        
-            // Thêm vào database
-            $req = $this->banner->add();
-        
-            if($req) {
-                echo json_encode(array('btn'=>'add','success'=>true, 'image' => $imageName));
-            } else {
-                echo json_encode(array('btn'=>'add','success'=>false));
-            }
-            exit;
-        }
+        // add
+function add(){
+    if (!isset($_FILES['uploadImage1']) || $_FILES['uploadImage1']['error'] != 0) {
+        echo json_encode(array('btn' => 'add', 'success' => false, 'error' => 'FLỗi upload', 'file' => $_FILES['uploadImage1']));
+        exit;
+    }
+
+    // Thư mục upload
+    $upload_dir = '../../assets/uploads/';
+
+    // Gọi hàm upload ảnh
+    $imageName = $this->uploadImage($_FILES['uploadImage1'], $upload_dir);
+
+    // Kiểm tra trùng tên ảnh trước khi thêm mới
+    if (Banner::isExist($imageName)) {
+        echo json_encode(array('btn' => 'add', 'success' => false, 'message' => 'Banner đã tồn tại.'));
+        exit;
+    }
+
+    // Tạo đối tượng Banner với mô tả và ảnh
+    $this->banner = new Banner($_POST['description'], $imageName);
+
+    // Thêm vào database
+    $req = $this->banner->add();
+
+    if($req) {
+        echo json_encode(array('btn' => 'add', 'success' => true, 'image' => $imageName,'message' => 'Thêm banner thành công'));
+    } else {
+        echo json_encode(array('btn' => 'add', 'success' => false, 'message' => 'Thêm banner thất bại'));
+    }
+    exit;
+}
+
 
         // Show dữ liệu lên modal
         function show_data(){

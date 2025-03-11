@@ -5,7 +5,7 @@ class Banner{
     private string $hinhanh;
     private int $trangthai;
 
-    function __construct( string $mota ="", string $hinhanh="", int $trangthai=0, int $idBN = 0){
+    function __construct( string $mota ="", string $hinhanh="", int $trangthai=1, int $idBN = 0){
         $this->idBN= $idBN;
         $this->mota = $mota;
         $this->hinhanh = $hinhanh;
@@ -35,35 +35,56 @@ class Banner{
         return $list;
     }
 
+
+    public static function isExist($hinhanh) {
+        $sql = "SELECT COUNT(*) as count FROM banner WHERE hinhanh = ?";
+        $con = new Database();
+        $link = $con->getLink();
+    
+        $stmt = $link->prepare($sql);
+        if ($stmt === false) {
+            die("Lỗi câu lệnh SQL: " . $link->error);
+        }
+        $stmt->bind_param("s", $hinhanh);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+    
+        return $result['count'] > 0;
+    }
        // Thêm
        public function add(){
-            $con = new Database();
-            $link = $con->getLink();
-        
-            // Câu lệnh SQL dùng Prepared Statement
-            $sql = "INSERT INTO banner ( mota, hinhanh,trangthai,idBN) VALUES (?, ?, ?,?)";
-        
-            $stmt = $link->prepare($sql);
-            if ($stmt === false) {
-                die("Lỗi câu lệnh SQL: " . $link->error);
-            }
-        
-            // Gán giá trị vào SQL (d = double, s = string, i = integer)
-            $stmt->bind_param("ssii",   $this->mota, $this->hinhanh,$this->trangthai, $this->idBN);
-        
-            // Thực thi câu lệnh
-            $result = $stmt->execute();
-        
-            // Kiểm tra thành công
-            if ($result) {
-                $this->idBN = $con->getLastInsertId();
-            }
-        
-            // Đóng câu lệnh
-            $stmt->close();
-        
-            return $result;
+        // Kiểm tra tên ảnh có bị trùng không
+        if (self::isExist($this->hinhanh)) {
+            // Bạn có thể thay đổi cách xử lý khi bị trùng, ví dụ trả về thông báo lỗi
+            return false;
         }
+    
+        $con = new Database();
+        $link = $con->getLink();
+        
+        // Câu lệnh SQL dùng Prepared Statement
+        $sql = "INSERT INTO banner (mota, hinhanh, trangthai, idBN) VALUES (?, ?, ?, ?)";
+        
+        $stmt = $link->prepare($sql);
+        if ($stmt === false) {
+            die("Lỗi câu lệnh SQL: " . $link->error);
+        }
+        
+        // Gán giá trị vào SQL
+        $stmt->bind_param("ssii", $this->mota, $this->hinhanh, $this->trangthai, $this->idBN);
+        
+        // Thực thi câu lệnh
+        $result = $stmt->execute();
+        
+        // Nếu thêm thành công, cập nhật idBN mới được tạo
+        if ($result) {
+            $this->idBN = $con->getLastInsertId();
+        }
+        
+        $stmt->close();
+        return $result;
+    }
     
     // Tìm theo ID
     // Tìm discount theo idMGG 
@@ -77,6 +98,7 @@ class Banner{
         }
         return null;
     }
+
     // Chỉnh sửa
     public function update() {
         $con = new Database();

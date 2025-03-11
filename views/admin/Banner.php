@@ -43,7 +43,7 @@
   
                 </tr>
               </thead>
-              <tbody class="table-group-divider">
+              <tbody class="table-group-divider ">
                     <?php
                       $banners = $result['paging']; 
                         if($banners == null) {

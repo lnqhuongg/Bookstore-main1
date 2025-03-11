@@ -9,10 +9,9 @@
   <div class="row py-3 px-1 mb-2">
     <!-- Form tìm kiếm -->
     <div class="col-md-11 d-flex">
-      <form class="d-flex w-100">
-          <input type="text" placeholder="Nhập mã, loại văn phòng phẩm..." style="max-width: 1080px;" class="form-control me-4" id="">
-          <button class="btn btn-success btn-sm " >Tìm kiếm</button>
-      </form>
+      <div class="d-flex w-100">
+      <input type="text" id="searchInput" placeholder="Nhập mã, loại văn phòng phẩm..." class="form-control me-4">
+      </div>
     </div>
     <!-- Button thêm sách -->
     <div class="col-md-1 d-flex justify-content-end">

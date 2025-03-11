@@ -27,9 +27,66 @@
                 case 'submit_btn_add':
                     $this->add();
                     break;
-                
+                case 'search':
+                    $this->search();
+                    break;
+                case 'load_default':
+                    $this->loadDefaultData();
+                    break;
             }
         }
+
+        // Tìm kiếm -> nhập keyword -> hiển thị lên html
+        function search() {
+            $keyword = $_POST['keyword'];
+            $stationeryTypes = StationeryType::search($keyword);
+        
+            if ($stationeryTypes) {
+                $html = "";
+                foreach ($stationeryTypes as $stationeryType) {
+                    $html .= "<tr>
+                        <td class='align-middle text-center'>{$stationeryType->getIdLoai()}</td>
+                        <td class='align-middle text-center'>{$stationeryType->getTenLoai()}</td>
+                        <td class='align-middle text-center'>
+                            ".($stationeryType->getTrangthai() ? "<span class='text-success fw-bold'>Đang hoạt động</span>" : "<span class='text-danger fw-bold'>Bị khóa</span>")."
+                        </td>
+                        <td class='align-middle text-center'>
+                            <button type='button' class='btn btn-sm open_edit_form' data-bs-toggle='modal' data-bs-target='#staticBackdropEditTypeStationery'>
+                                <img src='../assets/admin/img/edit.png' style='width:20px' alt=''>
+                            </button>
+                        </td>
+                    </tr>";
+                }
+                echo json_encode(["success" => true, "html" => $html]);
+            } else {
+                echo json_encode(["success" => false]);
+            }
+            exit;
+        }
+        
+        // Trường hợp không nhập từ khóa tìm kiếm -> load lại bảng
+        function loadDefaultData() {
+            $stationeryTypes = StationeryType::getAll();
+            $html = "";
+            foreach ($stationeryTypes as $stationeryType) {
+                $html .= "<tr>
+                    <td class='align-middle text-center'>{$stationeryType->getIdLoai()}</td>
+                    <td class='align-middle text-center'>{$stationeryType->getTenLoai()}</td>
+                    <td class='align-middle text-center'>
+                        ".($stationeryType->getTrangthai() ? "<span class='text-success fw-bold'>Đang hoạt động</span>" : "<span class='text-danger fw-bold'>Bị khóa</span>")."
+                    </td>
+                    <td class='align-middle text-center'>
+                        <button type='button' class='btn btn-sm open_edit_form' data-bs-toggle='modal' data-bs-target='#staticBackdropEditTypeStationery'>
+                            <img src='../assets/admin/img/edit.png' style='width:20px' alt=''>
+                        </button>
+                    </td>
+                </tr>";
+            }
+            echo json_encode(["success" => true, "html" => $html]);
+            exit;
+        }
+        
+
         function add(){
             $this->type = new StationeryType($_POST['lvpp_name'], 1);
             
