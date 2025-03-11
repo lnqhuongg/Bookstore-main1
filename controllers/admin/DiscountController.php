@@ -41,14 +41,31 @@
         function add(){
             $this->discount = new  Discount($_POST['discount_percent'], $_POST['discount_begin'], $_POST['discount_end'], 1);
             
-            // khởi tạo biến request lưu kết quả trả về từ phương thức add() ở class Discount
-            $req = $this->discount->add();
+             // Kiểm tra mã giảm giá đã tồn tại
+             if (Discount::isExist(null, $_POST['discount_percent'], $_POST['discount_begin'], $_POST['discount_end'])) {
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => false,
+                    'message' => 'Mã giảm giá đã tồn tại'
+                ));
+                exit;
+            }
 
+            // Thêm mã giảm giá
+            $req = $this->discount->add();
+        
             if($req) {
-                echo json_encode(array('btn'=>'add','success'=>true));
-            } 
-            else {
-                echo json_encode(array('btn'=>'add','success'=>false));
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => true,
+                    'message' => 'Thêm mã giảm giá phẩm thành công'
+                ));
+            } else {
+                echo json_encode(array(
+                    'btn' => 'add',
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra, vui lòng thử lại'
+                ));
             }
             exit;
         }
@@ -65,20 +82,42 @@
         
 
         function update(){
-            // lấy dữ liệu từ form nếu có thay đổi (nhấn vào nút - submit)
+            // Lấy dữ liệu từ form nếu có thay đổi (nhấn vào nút - submit)
             $idMGG = $_POST['discount_id'];
             $phantram = $_POST['discount_percent'];
             $ngaybatdau = $_POST['discount_begin'];
             $ngayketthuc = $_POST['discount_end'];
             $trangthai = isset($_POST['status']) ? 1 : 0;
-
+        
+            // Kiểm tra trùng mã giảm giá trước khi cập nhật
+            if (Discount::isExist($idMGG, $phantram, $ngaybatdau, $ngayketthuc)) {
+                echo json_encode(array(
+                    'btn' => 'update',
+                    'success' => false,
+                    'message' => 'Mã giảm giá đã tồn tại'
+                ));
+                exit;
+            }
+            
             $this->discount = new Discount($phantram, $ngaybatdau, $ngayketthuc, $trangthai, $idMGG);
             $req = $this->discount->update();
             
-            if($req) echo json_encode(array('btn'=>'update','success'=>true));
-            else echo json_encode(array('btn'=>'update','success'=>false));
+            if($req) {
+                echo json_encode(array(
+                    'btn' => 'update',
+                    'success' => true,
+                    'message' => 'Cập nhật mã giảm giá thành công'
+                ));
+            } else {
+                echo json_encode(array(
+                    'btn' => 'update',
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra khi cập nhật'
+                ));
+            }
             exit;
         }
+        
 
 
     }

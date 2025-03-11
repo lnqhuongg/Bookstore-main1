@@ -64,44 +64,48 @@ class Discount{
     //     return null;
     // }
 
-    // Thêm
-    public function add(){
+    // Kiểm tra trùng
+    static function isExist($idMGG, $phantram, $ngaybatdau, $ngayketthuc) {
+        $sql = 'SELECT idMGG FROM magiamgia WHERE phantram = ' . $phantram . ' AND ngaybatdau = "' . $ngaybatdau . '" AND ngayketthuc = "' . $ngayketthuc . '"';
+        if ($idMGG != null) {
+            $sql .= ' AND idMGG != ' . $idMGG;
+        }
         $con = new Database();
-        $link = $con->getLink();
-    
-        // Câu lệnh SQL dùng Prepared Statement
-        $sql = "INSERT INTO magiamgia (phantram, ngaybatdau, ngayketthuc, trangthai) VALUES (?, ?, ?, ?)";
-    
-        $stmt = $link->prepare($sql);
-        if ($stmt === false) {
-            die("Lỗi câu lệnh SQL: " . $link->error);
-        }
-    
-        // Gán giá trị vào SQL (d = double, s = string, i = integer)
-        $stmt->bind_param("dssi", $this->phantram, $this->ngaybatdau, $this->ngayketthuc, $this->trangthai);
-    
-        // Thực thi câu lệnh
-        $result = $stmt->execute();
-    
-        // Kiểm tra thành công
-        if ($result) {
-            $this->idMGG = $con->getLastInsertId();
-        }
-    
-        // Đóng câu lệnh
-        $stmt->close();
-    
-        return $result;
+        return ($con->getOne($sql)) != null;
     }
+    
+    
+    // Thêm
+    function add(){
+        // Kiểm tra nếu đã tồn tại chương trình khuyến mãi trùng khớp phần trăm, ngày bắt đầu và ngày kết thúc
+        if(!Discount::isExist($this->idMGG, $this->phantram, $this->ngaybatdau, $this->ngayketthuc)){
+            $sql = 'INSERT INTO magiamgia (phantram, ngaybatdau, ngayketthuc, trangthai) VALUES ("' 
+                   . $this->phantram . '", "' 
+                   . $this->ngaybatdau . '", "' 
+                   . $this->ngayketthuc . '", ' 
+                   . $this->trangthai . ')';
+            $con = new Database();
+            // Thực hiện câu lệnh SQL - hàm execute được định nghĩa sẵn trong class Database
+            $con->execute($sql);
+            return true;
+        }
+        return false;
+    }
+    
     
     
 
     // Sửa
     public function update() {
+        // Kiểm tra trùng dữ liệu (loại trừ bản ghi hiện tại)
+        if (Discount::isExist($this->idMGG, $this->phantram, $this->ngaybatdau, $this->ngayketthuc)) {
+            // Nếu có dữ liệu trùng, không cho cập nhật
+            return false;
+        }
+    
         $con = new Database();
         $link = $con->getLink();
     
-        // Câu lệnh SQL dùng Prepared Statement
         $sql = "UPDATE magiamgia SET phantram = ?, ngaybatdau = ?, ngayketthuc = ?, trangthai = ? WHERE idMGG = ?";
     
         $stmt = $link->prepare($sql);
@@ -109,17 +113,17 @@ class Discount{
             die("Lỗi câu lệnh SQL: " . $link->error);
         }
     
-        // Gán giá trị vào SQL (d = double, s = string, i = integer)
+        // Gán giá trị vào SQL: d = double, s = string, i = integer
         $stmt->bind_param("dssii", $this->phantram, $this->ngaybatdau, $this->ngayketthuc, $this->trangthai, $this->idMGG);
     
-        // Thực thi câu lệnh
         $result = $stmt->execute();
     
-        // Đóng câu lệnh
         $stmt->close();
     
         return $result;
     }
+    
+    
 
     
     

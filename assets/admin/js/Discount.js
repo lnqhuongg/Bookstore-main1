@@ -22,6 +22,8 @@ $(document).ready(function () {
         modalTitle.textContent = 'Thêm Mã giảm giá mới';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_add');
+        // Mở khóa trường ngày bắt đầu cho trường hợp thêm mới
+        $('#discount_calendarInput_start').attr('readonly', false);
         document.getElementById('discountForm').querySelectorAll('.edit').forEach(element => {
             console.log("Ẩn phần tử:", element);
             element.style.display = 'none';
@@ -70,6 +72,9 @@ function formatDateForInput(dateString) {
                     $('#discount_calendarInput_start').val(formatDateForInput(obj.data.ngaybatdau));
                     $('#discount_calendarInput_end').val(formatDateForInput(obj.data.ngayketthuc));
                     $('#status').val(obj.data.trangthai);
+
+                    // Khóa trường ngày bắt đầu khi mở form edit
+                    $('#discount_calendarInput_start').attr('readonly', true);
                     
                     if(parseInt(obj.data.trangthai)){
                         $('#status').prop('checked', true);
@@ -158,12 +163,20 @@ function formatDateForInput(dateString) {
                             // console.log("Đang gọi toast()...");
                             toast({
                                 title: 'Thành công',
-                                message: 'Thêm giảm giá thành công',
+                                message: obj.message,
                                 type: 'success',
                                 duration: 3000
                             });
                             // alert('Thêm thành công');
-                        } else {
+                        }else if (obj.btn == 'update') {
+                            toast({
+                                title: 'Thành công',
+                                message: obj.message, 
+                                type: 'success',
+                                duration: 3000
+                            });
+                        }
+                         else {
                             // console.log("Đang gọi toast()...");
                             toast({
                                 title: 'Thành công',
@@ -176,7 +189,7 @@ function formatDateForInput(dateString) {
                     }else {
                         toast({
                             title: 'Thất bại',
-                            message: "Thêm banner thất bại",
+                            message: obj.message,
                             type: 'error',
                             duration: 3000
                         });
