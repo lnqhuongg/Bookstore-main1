@@ -49,6 +49,13 @@
                             Looks good!
                           </div>
                         </div>
+                        <div class="col-md-6">
+                          <label for="validationServer02" class="form-label fw-medium">Quyền</label>
+                          <input type="text" class="form-control  border secondary " id="validationServer02" value="Otto" required readonly>
+                          <div class="valid-feedback">
+                            Looks good!
+                          </div>
+                        </div>
                         <div class="col-12">
                           <button class="btn btn-success float-end  small" type="submit">Cập nhật</button>
                         </div>
