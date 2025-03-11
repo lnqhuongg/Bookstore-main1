@@ -108,15 +108,44 @@ $(document).ready(function () {
                     const obj = JSON.parse(response);
                     console.log(obj);
                     console.log('hihi');
+                    // if(obj.success){
+                    //     if(obj.btn == 'add') {
+                    //         alert('Thêm thành công');
+                    //     } else {
+                    //         alert('Cập nhật thành công');
+                    //     }
+                    // }
+                    // else {
+                    //     alert('tên loại văn phòng phẩm đã tồn tại');
+                    // }
                     if(obj.success){
                         if(obj.btn == 'add') {
-                            alert('Thêm thành công');
+                            // console.log("Đang gọi toast()...");
+                            toast({
+                                title: 'Thành công',
+                                message: 'Thêm loại văn phòng phẩm thành công',
+                                type: 'success',
+                                duration: 3000
+                            });
+                            // alert('Thêm thành công');
                         } else {
-                            alert('Cập nhật thành công');
+                            // console.log("Đang gọi toast()...");
+                            toast({
+                                title: 'Thành công',
+                                message: 'Cập nhật loại văn phòng phẩm thành công',
+                                type: 'success',
+                                duration: 3000
+                            });
+                            // alert('Cập nhật thành công');
                         }
                     }
-                    else {
-                        alert('tên loại văn phòng phẩm đã tồn tại');
+                    else{
+                        toast({
+                            title: 'Thất bại',
+                            message: 'Cập nhật loại văn phòng phẩm thất bại,tên loại văn phòng phẩm không được trùng trùng',
+                            type: 'error',
+                            duration: 4000
+                        });
                     }
                 },
             });
