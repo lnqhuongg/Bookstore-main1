@@ -88,7 +88,7 @@ function formatDateForInput(dateString) {
                 }
             },
         });
-    });
+ });
 
     // Validate dữ liệu nhập
     function DiscountValidateError() {

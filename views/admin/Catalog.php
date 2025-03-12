@@ -37,28 +37,47 @@
               </tr>
             </thead>
             <tbody  class="table-group-divider">
+            <?php
+                      $catalogs = $result['paging']; 
+                        if($catalogs == null) {
+                          echo '<tr><td colspan="6">Không có dữ liệu</td> </tr>';
+                          echo '</tbody></table></div></div>';
+                      } else {
+                      echo '<input type="hidden" name="curr_page" class="curr_page" value="'.$paging->curr_page.'">';
+                      // số bản ghi sẽ được lấy từ start đến số bản ghi được phép hiển thị trên trang 
+                      for($i=$paging->start; $i<$paging->start+$paging->num_per_page && $i<$paging->total_records; $i++){
+                          $catalog = $catalogs[$i];
+                    ?>
                 <tr>
-                  <!-- Mã danh mục -->
-                    <td class="align-middle text-center" scope="row">
-                        SP001
+                  <!-- Mã tác giả -->
+                    <td class="align-middle text-center catalog_id" scope="row">
+                      <?=$catalog->getIdTL()?>
                     </td>
-                  <!-- Tên danh mục -->
-                    <td class="  align-middle text-center" style="max-width: 150px; word-wrap: break-word;">
-                        Truyện tranh 
+                  <!-- Tên tác gỉa -->
+                    <td class="  align-middle text-center catalog_name" style="max-width: 150px; word-wrap: break-word;">
+                      <?=$catalog->getTenTL()?>
                     </td>
                   <!-- Trạng thái -->
-                    <td class=" align-middle text-center text-success fw-bold">
-                        Hoạt động
+                    <td class="align-middle text-center text-success fw-bold">
+                        <?php
+                            if($catalog->getTrangthai())
+                                echo '<span class="align-middle text-center text-success fw-bold">Đang hoạt động</span>';
+                            else
+                                echo '<span class="align-middle text-center text-danger fw-bold">Bị khóa</span>';
+                        ?>
                     </td>
                   <!-- Tùy chỉnh -->
                     <td class="align-middle text-center">
                         <!-- Button chỉnh sửa -->
-                          <!-- Button trigger modal -->
-                          <button class="btn" fdprocessedid="r9x0b9" type="button" class="btn btn-success btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditCatalog">
-                            <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
-                          </button>
+                        <!-- Button trigger modal -->
+                        <button fdprocessedid="r9x0b9" type="button" class="btn btn-sm open_edit_form" data-bs-toggle="modal" data-bs-target="#staticBackdropEditCatalog">
+                          <img src="../assets/admin/img/edit.png" style="width:20px" alt="">
+                        </button>
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
       </div>
@@ -69,23 +88,16 @@
     <div class="col-md-12 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item me-2">
-                <a class="page-link rounded-circle" href="#" aria-label="Previous">
-                  <span aria-hidden="true"><i class="pre fa-solid fa-angle-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item me-2 "><a class="page-link rounded-circle" href="#">1</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">2</a></li>
-              <li class="page-item me-2""><a class="page-link rounded-circle" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link rounded-circle" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="next fa-solid fa-angle-right"></i></span>
-                </a>
-              </li>
+              <?php
+                echo $pagingButton;
+              ?>
             </ul>
         </nav>   
     </div>
   </div>
+  <?php
+      }
+  ?>
 
    <!-- Modal -->
   <!-- Modal -->
@@ -97,11 +109,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" id="catalogForm">
+          <input type="hidden" name="catalog_id" id="catalog_id" value="">
           <div class="modal-body">
             <div class="row mb-3">
                 <label for="" class=" col-sm-3 col-form-label fw-medium text-start">Tên danh mục</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="" placeholder="Nhập Tên danh mục sách...">
+                  <input type="text" class="form-control" id="catalog_name" name="catalog_name" placeholder="Nhập Tên danh mục sách...">
+                  <span class="text-message text-danger catalog-name-msg"></span>
                 </div>
             </div>
             <div class="edit">
@@ -109,15 +123,16 @@
                   <label for="" class="col-sm-3 col-form-label fw-medium text-start">Trạng thái</label>
                   <div class="d-flex align-items-center col-sm-9">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="toggleSwitch" checked>
-                      <label class="form-check-label" for="toggleSwitch">Hoạt động</label>
+                      <input class="form-check-input" type="checkbox" id="status" name="status" onchange="document.getElementById('status-label').textContent = this.checked ? 'Đang hoạt động' : 'Bị khóa';">
+                      <label class="form-check-label" for="status" id="status-label">Đang hoạt động</label>
                     </div>
                   </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="submit_btn">Xác nhận</button>
+            <input type="hidden" name="" id="submit_btn">
+            <button type="submit" class="btn btn-success" id="submit_btn">Xác nhận</button>
           </div>
         </form>
       </div>
