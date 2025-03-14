@@ -10,8 +10,7 @@
     <!-- Form tìm kiếm -->
     <div class="col-md-11 d-flex">
       <form class="d-flex w-100">
-          <input type="text" placeholder="Nhập mã, tên tác giả..." style="max-width: 1080px;" class="form-control me-4" id="">
-          <button class="btn btn-success btn-sm " >Tìm kiếm</button>
+          <input type="text" id="searchInput" placeholder="Nhập mã, tên tác giả..." style="max-width: 1080px;" class="form-control me-4" id="">
       </form>
     </div>
     <!-- Button thêm tác giả -->

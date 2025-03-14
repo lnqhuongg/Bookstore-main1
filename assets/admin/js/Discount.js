@@ -22,6 +22,8 @@ $(document).ready(function () {
         modalTitle.textContent = 'Thêm Mã giảm giá mới';
         submit_btn.setAttribute('name', 'action');
         submit_btn.setAttribute('value', 'submit_btn_add');
+        // Mở khóa trường ngày bắt đầu cho trường hợp thêm mới
+        $('#discount_calendarInput_start').attr('readonly', false);
         document.getElementById('discountForm').querySelectorAll('.edit').forEach(element => {
             console.log("Ẩn phần tử:", element);
             element.style.display = 'none';
@@ -70,6 +72,9 @@ function formatDateForInput(dateString) {
                     $('#discount_calendarInput_start').val(formatDateForInput(obj.data.ngaybatdau));
                     $('#discount_calendarInput_end').val(formatDateForInput(obj.data.ngayketthuc));
                     $('#status').val(obj.data.trangthai);
+
+                    // Khóa trường ngày bắt đầu khi mở form edit
+                    $('#discount_calendarInput_start').attr('readonly', true);
                     
                     if(parseInt(obj.data.trangthai)){
                         $('#status').prop('checked', true);
@@ -158,12 +163,20 @@ function formatDateForInput(dateString) {
                             // console.log("Đang gọi toast()...");
                             toast({
                                 title: 'Thành công',
-                                message: 'Thêm giảm giá thành công',
+                                message: obj.message,
                                 type: 'success',
                                 duration: 3000
                             });
                             // alert('Thêm thành công');
-                        } else {
+                        }else if (obj.btn == 'update') {
+                            toast({
+                                title: 'Thành công',
+                                message: obj.message, 
+                                type: 'success',
+                                duration: 3000
+                            });
+                        }
+                         else {
                             // console.log("Đang gọi toast()...");
                             toast({
                                 title: 'Thành công',
@@ -173,9 +186,54 @@ function formatDateForInput(dateString) {
                             });
                             // alert('Cập nhật thành công');
                         }
+                    }else {
+                        toast({
+                            title: 'Thất bại',
+                            message: obj.message,
+                            type: 'error',
+                            duration: 3000
+                        });
                     }
                 },
             });
         }
     });
+        // Xử lý nhập từ khóa tìm kiếm : mã, tên vpp
+        $(document).ready(function () {
+            $("#searchInput").on("input", function () {
+                let keyword = $(this).val().trim(); // Lấy giá trị nhập vào
+                
+                if (keyword.length === 0) {
+                    loadDefaultData(); // Nếu ô tìm kiếm trống, hiển thị danh sách mặc định
+                    return;
+                }
+        
+                $.ajax({
+                    url: "../controllers/admin/DiscountController.php",
+                    type: "POST",
+                    data: { action: "search", keyword: keyword },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (data.success) {
+                            $(".table-group-divider").html(data.html);
+                        } else {
+                            $(".table-group-divider").html("<tr><td colspan='4' class='text-center'>Không tìm thấy kết quả</td></tr>");
+                        }
+                    },
+                });
+            });
+        
+            // Hàm tải lại dữ liệu mặc định khi ô tìm kiếm trống
+            function loadDefaultData() {
+                $.ajax({
+                    url: "../controllers/admin/DiscountController.php",
+                    type: "POST",
+                    data: { action: "load_default" },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        $(".table-group-divider").html(data.html);
+                    },
+                });
+            }
+        });
 });

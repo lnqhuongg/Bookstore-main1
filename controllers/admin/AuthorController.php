@@ -32,6 +32,12 @@
                 case 'submit_btn_update':
                     $this->update();
                     break;
+                case 'search':
+                    $this->search();
+                    break;
+                case 'load_default':
+                    $this->loadDefaultData();
+                    break;
             }
         }
 
@@ -72,6 +78,57 @@
             
             if($req) echo json_encode(array('btn'=>'update','success'=>true));
             else echo json_encode(array('btn'=>'update','success'=>false));
+            exit;
+        }
+        // Tìm kiếm -> nhập keyword -> hiển thị lên html
+        function search() {
+            $keyword = $_POST['keyword'];
+            $authors = Author::search($keyword);
+        
+            if ($authors) {
+                $html = "";
+                foreach ($authors as $author) {
+                    $html .= "<tr>
+                        <td class='align-middle text-center'>{$author->getIdTG()}</td>
+                        <td class='align-middle text-center'>{$author->getTenTG()}</td>
+                        <td class='align-middle text-center'>{$author->getEmail()}</td>
+                        <td class='align-middle text-center'>
+                            ".($author->getTrangthai() ? "<span class='text-success fw-bold'>Đang hoạt động</span>" : "<span class='text-danger fw-bold'>Bị khóa</span>")."
+                        </td>
+                        <td class='align-middle text-center'>
+                            <button type='button' class='btn btn-sm open_edit_form' data-bs-toggle='modal' data-bs-target='#staticBackdropEditTypeStationery'>
+                                <img src='../assets/admin/img/edit.png' style='width:20px' alt=''>
+                            </button>
+                        </td>
+                    </tr>";
+                }
+                echo json_encode(["success" => true, "html" => $html]);
+            } else {
+                echo json_encode(["success" => false]);
+            }
+            exit;
+        }
+        
+        // Trường hợp không nhập từ khóa tìm kiếm -> load lại bảng
+        function loadDefaultData() {
+            $authors = Author::getAll();
+            $html = "";
+            foreach ($authors as $author) {
+                $html .= "<tr>
+                    <td class='align-middle text-center'>{$author->getIdTG()}</td>
+                        <td class='align-middle text-center'>{$author->getTenTG()}</td>
+                        <td class='align-middle text-center'>{$author->getEmail()}</td>
+                        <td class='align-middle text-center'>
+                            ".($author->getTrangthai() ? "<span class='text-success fw-bold'>Đang hoạt động</span>" : "<span class='text-danger fw-bold'>Bị khóa</span>")."
+                        </td>
+                        <td class='align-middle text-center'>
+                            <button type='button' class='btn btn-sm open_edit_form' data-bs-toggle='modal' data-bs-target='#staticBackdropEditTypeStationery'>
+                                <img src='../assets/admin/img/edit.png' style='width:20px' alt=''>
+                            </button>
+                        </td>
+                </tr>";
+            }
+            echo json_encode(["success" => true, "html" => $html]);
             exit;
         }
 

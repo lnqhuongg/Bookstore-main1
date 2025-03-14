@@ -156,4 +156,42 @@ $(document).ready(function () {
             });
         }
     });
+    // Xử lý nhập từ khóa tìm kiếm : mã, tên vpp
+    $(document).ready(function () {
+        $("#searchInput").on("input", function () {
+            let keyword = $(this).val().trim(); // Lấy giá trị nhập vào
+            
+            if (keyword.length === 0) {
+                loadDefaultData(); // Nếu ô tìm kiếm trống, hiển thị danh sách mặc định
+                return;
+            }
+    
+            $.ajax({
+                url: "../controllers/admin/AuthorController.php",
+                type: "POST",
+                data: { action: "search", keyword: keyword },
+                success: function (response) {
+                    let data = JSON.parse(response);
+                    if (data.success) {
+                        $(".table-group-divider").html(data.html);
+                    } else {
+                        $(".table-group-divider").html("<tr><td colspan='4' class='text-center'>Không tìm thấy kết quả</td></tr>");
+                    }
+                },
+            });
+        });
+    
+        // Hàm tải lại dữ liệu mặc định khi ô tìm kiếm trống
+        function loadDefaultData() {
+            $.ajax({
+                url: "../controllers/admin/AuthorController.php",
+                type: "POST",
+                data: { action: "load_default" },
+                success: function (response) {
+                    let data = JSON.parse(response);
+                    $(".table-group-divider").html(data.html);
+                },
+            });
+        }
+    });
 });

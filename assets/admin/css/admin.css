@@ -261,3 +261,25 @@ thead {
 .sidebar:hover ~ .content {
     margin-left: 250px;
 }
+
+.pagination-btn{
+  color: #28a745;
+  text-decoration: none !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 16px;
+}
+.pagination-btn:hover{
+  color: white; 
+  background-color: #28a745;
+}
+.active > .pagination-btn, 
+.pagination-btn.active {
+    color: white !important; /* Khi active, màu chữ trắng */
+    background-color: #28a745 !important; /* Nền xanh lá */
+    border-color: #28a745 !important; /* Viền xanh lá */
+}

@@ -75,7 +75,34 @@ class StationeryType {
             }
             return false;
         }
-
+        public static function search($keyword) {
+            $list = [];
+            $sql = "SELECT * FROM loai_vpp WHERE tenLoai LIKE ? OR idLoai = ?";
+            
+            $con = new Database();
+            $link = $con->getLink();
+            $stmt = $link->prepare($sql);
+            
+            if ($stmt === false) {
+                die("Lỗi SQL: " . $link->error);
+            }
+            
+            $param = "%" . $keyword . "%"; // Tìm kiếm gần đúng theo tên
+            $idParam = is_numeric($keyword) ? intval($keyword) : 0; // Nếu keyword là số, tìm theo ID
+            
+            $stmt->bind_param("si", $param, $idParam);
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $stationeryType = new StationeryType($row['tenLoai'], $row['trangthai'], $row['idLoai']);
+                $list[] = $stationeryType;
+            }
+            
+            $stmt->close();
+            return $list;
+        }
+        
     // Getter và Setter cho idLoai
     public function getIdLoai(): int {
         return $this->idLoai;

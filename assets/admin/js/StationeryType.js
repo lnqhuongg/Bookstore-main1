@@ -151,7 +151,73 @@ $(document).ready(function () {
             });
         }
     });
+    $(document).ready(function () {
+        // Hàm gửi AJAX tìm kiếm và phân trang
+        function fetchSearchResults(keyword, page = 1) {
+            $.ajax({
+                url: "../controllers/admin/StationeryTypeController.php",
+                type: "POST",
+                data: { action: "search", keyword: keyword, page: page },
+                success: function (response) {
+                    let data = JSON.parse(response);
+                    if (data.success) {
+                        $(".table-group-divider").html(data.html);
+                        $(".pagination").html(data.pagination); // Cập nhật phân trang
+                    } else {
+                        $(".table-group-divider").html("<tr><td colspan='4' class='text-center'>Không tìm thấy kết quả</td></tr>");
+                        $(".pagination").html("");
+                    }
+                },
+                error: function () {
+                    console.error("Lỗi khi tải dữ liệu.");
+                }
+            });
+        }
+    
+        // Sự kiện nhập từ ô tìm kiếm
+        $("#searchInput").on("input", function () {
+            let keyword = $(this).val().trim();
+            if (keyword.length === 0) {
+                loadDefaultData(); // Nếu trống, load dữ liệu mặc định
+            } else {
+                fetchSearchResults(keyword, 1);
+            }
+        });
+    
+        // Sự kiện click phân trang
+        $(document).on("click", ".pagination-btn", function (e) {
+            e.preventDefault();
+            let page = $(this).data("page");
+            let keyword = $("#searchInput").val().trim();
+            fetchSearchResults(keyword, page);
+        });
+    
+        // Hàm tải dữ liệu mặc định
+        function loadDefaultData() {
+            $.ajax({
+                url: "../controllers/admin/StationeryTypeController.php",
+                type: "POST",
+                data: { action: "load_default" },
+                success: function (response) {
+                    let data = JSON.parse(response);
+                    $(".table-group-divider").html(data.html);
+                    if(data.pagination) {
+                        $(".pagination").html(data.pagination);
+                    }
+                },
+                error: function () {
+                    console.error("Lỗi khi tải dữ liệu mặc định.");
+                }
+            });
+            //load khi chuyển
+            let page = $(this).data("page");
+            let keyword = $("#searchInput").val().trim();
+            fetchSearchResults(keyword, page);
+        }
+    });
+        
 });
+
 
 
 

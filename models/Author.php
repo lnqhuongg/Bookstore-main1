@@ -86,21 +86,52 @@
             }
             return false;
         }
+        // bản cũ
+        // static function search($kyw){
+        //     $sql = 'SELECT DISTINCT idTG, tenTG, email, trangthai
+        //     FROM tacgia
+        //     WHERE 1';
+        //     if($kyw != NULL) $sql .= ' AND (idTG LIKE "%'.$kyw.'%" OR tenTG LIKE "%'.$kyw.'%" ORgm email LIKE "%'.$kyw.'%")';
+        //     $list = [];
+        //     $con = new Database();
+        //     $req = $con->getAll($sql);
+        //     foreach($req as $item){
+        //         $author = new self($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
+        //         $list[] = $author;
+        //     }
+        //     return $list;
+        // }
 
-        static function search($kyw){
-            $sql = 'SELECT DISTINCT idTG, tenTG, email, trangthai
-            FROM tacgia
-            WHERE 1';
-            if($kyw != NULL) $sql .= ' AND (idTG LIKE "%'.$kyw.'%" OR tenTG LIKE "%'.$kyw.'%" ORgm email LIKE "%'.$kyw.'%")';
+         // Tìm kiếm theo mã, tên tác giả
+         public static function search($keyword) {
             $list = [];
+            $sql = "SELECT * FROM tacgia WHERE tenTG LIKE ? OR idTG = ?";
+        
             $con = new Database();
-            $req = $con->getAll($sql);
-            foreach($req as $item){
-                $author = new self($item['tenTG'], $item['email'], $item['trangthai'], $item['idTG']);
+            $link = $con->getLink();
+            $stmt = $link->prepare($sql);
+        
+            if ($stmt === false) {
+                die("Lỗi SQL: " . $link->error);
+            }
+        
+            $param = "%" . $keyword . "%"; // Tìm kiếm gần đúng theo tên
+            $idParam = is_numeric($keyword) ? intval($keyword) : 0; // Nếu keyword là số, tìm theo ID
+        
+            $stmt->bind_param("si", $param, $idParam);
+            $stmt->execute();
+        
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $author = new Author($row['tenTG'], $row['email'], $row['trangthai'], $row['idTG']);
                 $list[] = $author;
             }
+        
+            $stmt->close();
             return $list;
         }
+
+
         
         function toArray() {
             return [
